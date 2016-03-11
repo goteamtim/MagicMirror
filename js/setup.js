@@ -4,3 +4,4 @@ function checkGeolocationCompatibility(){
     }else{return false;}
 }
 
+$('checbox')
