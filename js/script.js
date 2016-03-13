@@ -1,11 +1,10 @@
 var apiKey;
 var zip;
-
+var weatherData = {};
 function loadData(){
 	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey, function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
-			console.log(json)
-
+			weatherData = json;
 	})
 }
 

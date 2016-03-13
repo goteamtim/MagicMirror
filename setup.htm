@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h1>Welcome to the Magic Mirror Setup page!</h1>
+                <h1>Magic Mirror Setup</h1>
                 <h3>Please choose the features that you would like on your magic mirror below.</h3>
             </div>
         </div>
@@ -27,20 +27,20 @@
                             <input type="checkbox" value=""> Show weather on Mirror
                         </label>
                     </div>
-                    <fieldset class="form-group" id="weather">
+                    <fieldset class="form-group" id="weatherField">
                         <label for="weatherInputLabel">Weather API Key</label>
 
-                        <input type="text" class="form-control" id="weatherInput" placeholder="Enter forecase.io API key here">
+                        <input type="text" class="form-control" id="weatherInput" placeholder="Enter openweathermap.org API key here">
                         <div class="form-inline">
                             <div class="form-group">
                                 <label for="latitudeLabel">Latitude</label>
-                                <input type="number" class="form-control" id="latitude" placeholder="Latitude">
+                                <input type="number" class="form-control" id="latitude" placeholder="Latitude" step="any">
                             </div>
                             <div class="form-group">
                                 <label for="longitudeLabel">Longitude</label>
-                                <input type="number" class="form-control" id="exampleInputEmail2" placeholder="Longitude">
+                                <input type="number" class="form-control" id="longitude" placeholder="Longitude" step="any">
                             </div>
-                            <button type="submit" class="btn btn-primary" id="getCoordinates">Get Coordinates</button>
+                            <input type="button" class="btn btn-primary" id="getCoordinates" onclick="getCoords()" value="Get Coordinates"></input>
                         </div>
                         <!-- F or C here -->
                         <br>
@@ -57,7 +57,7 @@
                             <input type="checkbox" value="true"> Use google maps to
                         </label>
                     </div>
-                    <fieldset class="form-group" id="google">
+                    <fieldset class="form-group" id="googleField">
                         <label for="googleLabelInput">Google Maps</label>
                         <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Google Maps API Key">
                         <!--Add fields for work, home, other
@@ -71,7 +71,7 @@
                             <input type="checkbox" value="true">Use lyft for ride estimations
                         </label>
                     </div>
-                    <fieldset class="form-group" id="lyft">
+                    <fieldset class="form-group" id="lyftField">
                         <label for="lyftLabelInput">Lyft</label>
                         <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="lyft API Key">
                     </fieldset>
@@ -81,7 +81,7 @@
                             <input type="checkbox" value="true">Use uber for ride estimations
                         </label>
                     </div>
-                    <fieldset class="form-group" id="uber">
+                    <fieldset class="form-group" id="uberField">
                         <label for="uberLabelInput">Uber</label>
                         <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Uber API Key">
                     </fieldset>
@@ -92,12 +92,12 @@
                         </label>
                     </div>
                     <!-- Dont need API key here but I could also do just a checkbox for quotes or news -->
-                    <fieldset class="form-group" id="randomQuotes">
+                    <fieldset class="form-group" id="randomQuotesField" disabled>
                         <label for="lyftLabelInput">Random Quote</label>
                         <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="lyft API Key">
                     </fieldset>
                     <!-- Would like to add other options for URL inputs possibly to hook into other home automation projects that people might have -->
-
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </div>
