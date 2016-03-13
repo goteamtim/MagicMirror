@@ -3,6 +3,7 @@ var userData = {};
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
   userData["location"] = data;
+  storeCookie("userData",JSON.stringify(userData));
 })
 }
 
