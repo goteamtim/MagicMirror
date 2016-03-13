@@ -1,7 +1,7 @@
-function checkGeolocationCompatibility(){
-    if (navigator.geolocation) {
-        return true;
-    }else{return false;}
-}
+var userData = {};
 
-$('checbox')
+function getUsersIpInformation(){
+    $.getJSON('http://ipinfo.io', function(data){
+  console.log(data);
+})
+}

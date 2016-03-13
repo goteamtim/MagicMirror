@@ -1,5 +1,8 @@
+var apiKey;
+var zip;
+
 function loadData(){
-	$.getJSON("https://api.forecast.io/forecast/{API_KEY}/32.8050413,-117.2580296", function(json){
+	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey, function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
 			console.log(json)
 
