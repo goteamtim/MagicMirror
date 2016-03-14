@@ -4,7 +4,7 @@ var weatherData = {};
 var userDataString = getCookie('userData');
 var userData = JSON.parse(userDataString);
 
-function loadData(){
+function loadWeatherData(){
 	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey, function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
 			weatherData = json;
@@ -25,7 +25,7 @@ function getCookie(name){
 	}
 }
 
-loadData()
+loadWeatherData()
 //Google driving api maybe?
 //Uber/lyft waiting time
 //Top stories

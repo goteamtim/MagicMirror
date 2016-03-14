@@ -22,6 +22,20 @@ function getCoords(){
     $('#longitude').val(+lon);
 }
 
+function saveSettings(){
+    var inputFields = document.querySelectorAll('.userDataField');
+    for (var i = 0; i < inputFields.length; i++) {
+        var element = inputFields[i];
+        console.log(element);
+        if(element.value != ""){
+            //console.log(element.value);
+            //console.log(element);
+            //debugger;
+        }
+    }
+        
+}
+
 $('.checkbox').change(function(){
     if (this.checked) {
         $('#' + this.id + 'Field').attr('disabled',true);
