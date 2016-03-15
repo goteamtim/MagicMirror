@@ -2,12 +2,17 @@ var apiKey;
 var zip;
 var weatherData = {};
 var userDataString = getCookie('userData');
-var userData = JSON.parse(userDataString);
+var temperatureUnits = 'Imperial';
+//var userData = JSON.parse(userDataString);
 
 function loadWeatherData(){
-	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey, function(json){
+	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey+'&units='+temperatureUnits, function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
 			weatherData = json;
+            document.querySelector("#locationName").innerHTML = json.name;
+            document.querySelector("#temp_max").innerHTML = json.main.temp_max;
+            document.querySelector("#temp_min").innerHTML = json.main.temp_min;
+            
 	})
 }
 
@@ -27,6 +32,7 @@ function getCookie(name){
 
 loadWeatherData()
 //Google driving api maybe?
-//Uber/lyft waiting time
+//Uber waiting time
 //Top stories
 //Random uplifting quote from reddit?  /r/uplifting stories?  /r/quotes?
+//Calendar

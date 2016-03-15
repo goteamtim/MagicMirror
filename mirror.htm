@@ -5,15 +5,25 @@
 
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./weather-icons-master/css/weather-icons.min.css">
   <link href="./css/mirror.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-	<div class="row">Weather</div>
+	<div class="row">
+        <div class='col-sm-12'>Weather for <span id="locationName"></span></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            High of <span id="temp_max"></span>
+        </div>
+        <div class="col-sm-6">Low of <span id="temp_min"></span></div>
+    </div>
+    
 </div>
 <!--Scripts-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  <script src="./js/script.js"></script>
+  <script src="./js/mirror.js"></script>
 </body>
 </html>
