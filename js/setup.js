@@ -28,17 +28,17 @@ function saveSettings(){
         var element = inputFields[i];
         console.log(element);
         if(element.value != ""){
-            //console.log(element.value);
-            //console.log(element);
-            //debugger;
+            
         }
     }
         
 }
 
 $('.checkbox').change(function(){
-    if (this.checked) {
+    
+    if ($('#' + this.id).prop('checked')) {
         $('#' + this.id + 'Field').attr('disabled',true);
+        console.log(this.id);
     }else{
         $('#' + this.id + 'Field').attr('disabled',false);
     }
