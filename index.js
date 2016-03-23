@@ -6,17 +6,19 @@ var fs = require('fs');
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
 
-
-//
-
+   
 app.get('/mirror',function(req,res){
+ res.sendFile(__dirname + '\/mirror.htm'); 
+});
 
+app.get('/setup',function(req,res){
+    res.sendFile(__dirname + '\/setup.htm');
 });
 
 app.get('/weather', function(req, res) {
-    request('https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE', function(error, response, body) {
+    request('https://api.forecast.io/forecast/{}/{lat},{long}', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body) // Show the HTML for the Google homepage.
+            res.send(body);
         }
     })
     res.send();
