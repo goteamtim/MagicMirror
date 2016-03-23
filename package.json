@@ -1,0 +1,20 @@
+{
+  "name": "MagicMirror",
+  "version": "1.0.0",
+  "description": "This app supplies the interface for a magic mirror.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mirror",
+    "magicmirror",
+    "dashboard"
+  ],
+  "author": "Tim Harshman",
+  "license": "ISC"
+}
