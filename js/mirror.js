@@ -6,12 +6,13 @@ var temperatureUnits = 'Imperial';
 //var userData = JSON.parse(userDataString);
 
 function loadWeatherData(){
-	$.getJSON("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid="+apiKey+'&units='+temperatureUnits, function(json){
+	$.getJSON("http://localhost:3000/weather", function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
+        debugger;
 			weatherData = json;
-            document.querySelector("#locationName").innerHTML = json.name;
-            document.querySelector("#temp_max").innerHTML = json.main.temp_max;
-            document.querySelector("#temp_min").innerHTML = json.main.temp_min;
+            //document.querySelector("#locationName").innerHTML = json.name;
+            document.querySelector("#curr_temp").innerHTML = json.currently.apparentTemperature;
+            //document.querySelector("#temp_min").innerHTML = json.main.temp_min;
             
 	})
 }
