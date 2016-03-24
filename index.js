@@ -24,7 +24,7 @@ function getCurrentDriveTime(){
         //handle error.  
     })
 };
-};
+
 
 updateWeatherData();
 setInterval(updateWeatherData,60000*60);

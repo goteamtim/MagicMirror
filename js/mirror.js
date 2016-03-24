@@ -8,7 +8,6 @@ var temperatureUnits = 'Imperial';
 function loadWeatherData(){
 	$.getJSON("http://localhost:3000/weather", function(json){
 		//Gather weather here as object first then use it later in broken out functuions?
-        debugger;
 			weatherData = json;
             //document.querySelector("#locationName").innerHTML = json.name;
             document.querySelector("#curr_temp").innerHTML = json.currently.apparentTemperature;
