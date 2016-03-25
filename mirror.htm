@@ -5,28 +5,54 @@
 
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Quicksand:400,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="./weather-icons-master/css/weather-icons.min.css">
   <link href="./css/mirror.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="row">
-        <div class='col-sm-12'>Weather for <span id="locationName"></span></div>
+        <div class='col-sm-12'>Today is <span id="today"></span></div>
     </div>
     <div class="row">
         <div class="col-sm-6">
-            Current Temp: <span id="curr_temp"></span>
+            <div id="weatherTile">
+            <div class="row text-center" >
+                <div class="col-sm-12" id="todayDay"></div>
+            
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    Current Temp: <span id="currTemp"></span>&deg;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                <canvas id="clear-night" width="128" height="128"></canvas>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-sm-12">
+                <span id="currDesc"></span>
+                </div>
+            </div>
+            </div>
         </div>
-        <div class="col-sm-6">Low of <span id="temp_min"></span></div>
+        <div class="col-sm-6"></div>
     </div>
-    <div class="row" id="rssFeeds">
-        
+    <div class="row" id="quotePadding">
+        <div class="col-sm-12">
+            <p>"<span id="quote"></span>"</p>
+            <p>-<span id="quoteAuthor"></span></p>
+        </div>
     </div>
     
 </div>
 <!--Scripts-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  
+  <script src="./js/skycons.js"></script>
   <script src="./js/mirror.js"></script>
 </body>
 </html>
