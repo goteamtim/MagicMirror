@@ -8,6 +8,8 @@ var userData = {
 };
 var quote = {};
 
+var randomQute = getRandomQuote();
+
 function updateWeatherData() {
     //Check if the ip information exists and if it doesnt call the function and wait
     if (!userData["ip_info"].hasOwnProperty("loc")) {
@@ -16,7 +18,7 @@ function updateWeatherData() {
         return;
     }
     console.log("test" + userData["ip_info"].loc);
-    request('https://api.forecast.io/forecast/{apiKey}/' + userData["ip_info"].loc, function(error, response, body) {
+    request('https://api.forecast.io/forecast/{apikey}/' + userData["ip_info"].loc, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData["weather"] = body;
             console.log("Stored userData.");
@@ -53,20 +55,26 @@ function getCurrentDriveTime() {
 };
 
 function getRandomQuote() {
+    var parsedQuote;
+    console.log("enteredQuote");
     request('http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body);
+            console.log("quote type: " + typeof(body));
             //Issue here
             try {
-                var parsedQuote = JSON.parse(body);
+                parsedQuote = JSON.parse(body);
+                console.log("should be object: " + typeof(parsedQuote));
             } catch (error) {
-                var parsedQuote = {
+                parsedQuote = {
                     quoteText: "Loading quote...",
                     quoteAuthor: ""
                 };
-                setTimeout(getRandomQuote,3000);
+                //Set function to run again so a real quote is saved
+                setTimeout(function(){getRandomQuote();
+                    console.log("\nTrying again\n");},500);
                 
             }
+            randomQute = parsedQuote;
             return parsedQuote;
         } else {
             console.log("Error in quote: " + error);
@@ -76,7 +84,7 @@ function getRandomQuote() {
 
 updateWeatherData();
 setInterval(updateWeatherData, 60000 * 60);
-getRandomQuote();
+//getRandomQuote();
 getUserLocation();
 
 // we are specifying the html directory as another public directory
@@ -100,7 +108,12 @@ app.get('/driveTime', function(req, res) {
 });
 
 app.get('/randomQuote', function(req, res) {
-    res.send(getRandomQuote());
+    
+        res.send(randomQute);
+
+    console.log("Sending: " + typeof(randomQute));
+    getRandomQuote();
+    
 });
 
 app.listen(3000, function() {

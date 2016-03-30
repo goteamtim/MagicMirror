@@ -2,17 +2,19 @@ var apiKey;
 var zip;
 var weatherData = {};
 var userDataString = getCookie('userData');
-var weatherLastLoadTime = Date.now();
+var time = new Date();
+var weatherLastLoadTime = time.getMilliseconds() * 1000;
 //var userData = JSON.parse(userDataString);
 
 function loadWeatherData() {
-    var currentTime = Date.now();
+    var t = new Date();
+    var currentTime = t.getMilliseconds() * 1000;
     //Dont get the weather if called within two hours for now
     if (weatherLastLoadTime + 720000 > currentTime) {
         $.getJSON("http://localhost:3000/weather", function(json) {
             //Gather weather here as object first then use it later in broken out functuions?
             weatherData = json;
-            storeCookie(JSON.stringify(json),'weatherData');
+            storeCookie(JSON.stringify(json), 'weatherData');
             document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature);
             document.querySelector("#currDesc").innerHTML = json.hourly.summary;
         })
@@ -22,12 +24,14 @@ function loadWeatherData() {
 
 }
 
-function refreshQuote(){
+function refreshQuote() {
     $.getJSON("http://localhost:3000/randomQuote", function(json) {
-        console.log(json);
-            document.querySelector("#quote").innerHTML = json.quoteText;
-            document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
-        })
+        document.querySelector("#quote").innerHTML = json.quoteText;
+        document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
+        if (json.quoteAuthor == "") {
+            document.querySelector("#quoteAuthor").innerHTML = "Unknown";
+        }
+    })
 };
 
 function updateDate() {
@@ -41,7 +45,21 @@ function updateDate() {
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
     var n = weekday[d.getDay()];
-    document.getElementById('today').innerHTML = n;
+    document.querySelector('#today').innerHTML = n;
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    document.querySelector('#date').innerHTML = month[d.getMonth()] + " " + d.getDay() + ", " + d.getFullYear();
 }
 
 function getCookie(name) {
@@ -60,6 +78,9 @@ function getCookie(name) {
 
 var storeCookie = function(cookieData, source) {
     //Remember if cookie data doesnt wor you changed this function
+    if (typeof (cookieData) == {}) {
+        cookieData = JSON.stringify(cookieData);
+    }
     if (source == null) {
         document.cookie = cookieData;
     } else {
