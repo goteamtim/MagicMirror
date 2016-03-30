@@ -60,11 +60,13 @@ function getRandomQuote() {
             try {
                 var parsedQuote = JSON.parse(body);
             } catch (error) {
-                console.log(error);
+                var parsedQuote = {
+                    quoteText: "Loading quote...",
+                    quoteAuthor: ""
+                };
+                setTimeout(getRandomQuote,3000);
                 
             }
-            
-            console.log("---" + parsedQuote.quoteText);
             return parsedQuote;
         } else {
             console.log("Error in quote: " + error);
