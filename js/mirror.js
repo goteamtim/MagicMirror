@@ -22,7 +22,7 @@ function loadWeatherData() {
 
     }
 
-}
+};
 
 function refreshQuote() {
     $.getJSON("http://localhost:3000/randomQuote", function(json) {
@@ -33,6 +33,13 @@ function refreshQuote() {
         }
     })
 };
+
+function updateDrivingDistance(destLat,destLon){
+    $.getJSON('http://localhost:3000/distance/destLat/destLon',function(json){
+        //do something with json here
+        //update currentDriveTime
+    });
+}
 
 function updateDate() {
     var d = new Date();
@@ -89,11 +96,9 @@ var storeCookie = function(cookieData, source) {
 
 }
 
-
 loadWeatherData()
 updateDate()
 refreshQuote()
-//Google driving api maybe?
 //Uber waiting time
 //Top stories
 //Random uplifting quote from reddit?  /r/uplifting stories?  /r/quotes?

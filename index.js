@@ -6,7 +6,11 @@ var fs = require('fs');
 var userData = {
     ip_info: {},
     weather: {},
-    weatherAPIKey: ""
+    weatherAPIKey: "",
+    driveData: {
+        lastUpdated: new Date(),
+        content: {}
+    }
 };
 var quote = {};
 
@@ -40,8 +44,8 @@ function getUserLocation() {
     })
 };
 
-function getCurrentDriveTime() {
-    request('https://maps.googleapis.com/maps/api/distancematrix/json?origins={long},{lat}&destinations={long},{lat}&departure_time=now&traffic_model=best_guess&key={googleDistanceApiKey}', function(error, response, body) {
+function getCurrentDriveTime(originLatLon,destLat,destLon) {
+    request('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key={googleDistanceApiKey}', function(error, response, body) {
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
@@ -111,8 +115,8 @@ app.get('/weather/:apiKey', function(req, res) {
     res.send(userData["weather"]);
 });
 
-app.get('/driveTime', function(req, res) {
-    res.send(getCurrentDriveTime());
+app.get('/driveTime/:destLat/:destLon', function(req, res) {
+    res.send(getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon));
 });
 
 app.get('/randomQuote', function(req, res) {
