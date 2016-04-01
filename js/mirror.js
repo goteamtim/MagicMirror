@@ -4,23 +4,20 @@ var weatherData = {};
 var userDataString = getCookie('userData');
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
-//var userData = JSON.parse(userDataString);
+var userData = JSON.parse(getCookie('userData'));
 
 function loadWeatherData() {
-    var t = new Date();
-    var currentTime = t.getMilliseconds() * 1000;
-    //Dont get the weather if called within two hours for now
-    if (weatherLastLoadTime + 720000 > currentTime) {
-        $.getJSON("http://localhost:3000/weather", function(json) {
-            //Gather weather here as object first then use it later in broken out functuions?
-            weatherData = json;
-            storeCookie(JSON.stringify(json), 'weatherData');
-            document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature);
-            document.querySelector("#currDesc").innerHTML = json.hourly.summary;
-        })
-    } else {
+    $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function(json) {
+        //Gather weather here as object first then use it later in broken out functuions?
+        weatherData = json;
+        storeCookie(JSON.stringify(json), 'weatherData');
+        document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
+        document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
-    }
+        var skycons = new Skycons({ "color": "white" });
+        skycons.add("clear-night", json.currently["icon"]);
+        skycons.play();
+    })
 
 };
 
@@ -34,8 +31,8 @@ function refreshQuote() {
     })
 };
 
-function updateDrivingDistance(destLat,destLon){
-    $.getJSON('http://localhost:3000/distance/destLat/destLon',function(json){
+function updateDrivingDistance(destLat, destLon) {
+    $.getJSON('http://localhost:3000/distance/destLat/destLon', function(json) {
         //do something with json here
         //update currentDriveTime
     });
@@ -66,7 +63,7 @@ function updateDate() {
     month[9] = "October";
     month[10] = "November";
     month[11] = "December";
-    document.querySelector('#date').innerHTML = month[d.getMonth()] + " " + d.getDay() + ", " + d.getFullYear();
+    document.querySelector('#date').innerHTML = month[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
 }
 
 function getCookie(name) {
@@ -101,20 +98,4 @@ updateDate()
 refreshQuote()
 //Uber waiting time
 //Top stories
-//Random uplifting quote from reddit?  /r/uplifting stories?  /r/quotes?
 //Calendar
-
-var skycons = new Skycons({ "color": "white" });
-// on Android, a nasty hack is needed: {"resizeClear": true}
-
-// you can add a canvas by it's ID...
-skycons.add("clear-night", Skycons.PARTLY_CLOUDY_NIGHT);
-
-// ...or by the canvas DOM element itself.
-skycons.add(document.getElementById("icon2"), Skycons.RAIN);
-
-// if you're using the Forecast API, you can also supply
-// strings: "partly-cloudy-day" or "rain".
-
-// start animation!
-skycons.play();

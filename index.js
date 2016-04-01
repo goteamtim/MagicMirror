@@ -7,8 +7,9 @@ var userData = {
     ip_info: {},
     weather: {},
     weatherAPIKey: "",
+    driveTimeApiKey: "",
     driveData: {
-        lastUpdated: new Date(),
+        lastUpdated: new Date().getTime(),
         content: {}
     }
 };
@@ -28,6 +29,7 @@ function updateWeatherData(key) {
     console.log("key: " + key)
     request('https://api.forecast.io/forecast/' + key + '/' + userData["ip_info"].loc, function(error, response, body) {
         if (!error && response.statusCode == 200) {
+            console.log("forecast type: " + typeof(body))
             userData["weather"] = body;
             console.log("Stored userData.");
         } else { console.log("API call to weather not working.\n" + error); }
@@ -44,8 +46,8 @@ function getUserLocation() {
     })
 };
 
-function getCurrentDriveTime(originLatLon,destLat,destLon) {
-    request('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key={googleDistanceApiKey}', function(error, response, body) {
+function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
+    request('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey, function(error, response, body) {
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
@@ -115,15 +117,14 @@ app.get('/weather/:apiKey', function(req, res) {
     res.send(userData["weather"]);
 });
 
-app.get('/driveTime/:destLat/:destLon', function(req, res) {
-    res.send(getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon));
+app.get('/driveTime/:destLat/:destLon/:apiKey', function(req, res) {
+    res.send(getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey));
 });
 
 app.get('/randomQuote', function(req, res) {
     
         res.send(randomQute);
-
-    console.log("Sending: " + typeof(randomQute));
+        //Get the next random quote since sometimes it has to go through a few to find valid json
     getRandomQuote();
     
 });

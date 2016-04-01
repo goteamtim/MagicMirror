@@ -3,7 +3,7 @@ var userData = {};
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
   userData["location"] = data;
-  storeCookie("userData",JSON.stringify(userData));
+  //storeCookie("userData",JSON.stringify(userData));
 })
 }
 
@@ -28,10 +28,10 @@ function saveSettings(){
         var element = inputFields[i];
         console.log(element);
         if(element.value != ""){
-            
+            userData[element.id] = element.value;
         }
     }
-        
+        storeCookie('userData',JSON.stringify(userData));
 }
 
 $('.checkbox').change(function(){
@@ -43,5 +43,13 @@ $('.checkbox').change(function(){
         $('#' + this.id + 'Field').attr('disabled',false);
     }
 });
+
+
+$('form').submit(function(event) {
+	event.preventDefault();
+	saveSettings();
+	
+})
+
 
 getUsersIpInformation();
