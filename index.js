@@ -25,13 +25,10 @@ function updateWeatherData(key) {
         setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
         return;
     }
-    console.log("test" + userData["ip_info"].loc);
-    console.log("key: " + key)
+
     request('https://api.forecast.io/forecast/' + key + '/' + userData["ip_info"].loc, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log("forecast type: " + typeof(body))
             userData["weather"] = body;
-            console.log("Stored userData.");
         } else { console.log("API call to weather not working.\n" + error); }
     })
 };
@@ -110,6 +107,7 @@ app.get('/setup', function(req, res) {
 });
 
 app.get('/weather/:apiKey', function(req, res) {
+    updateWeatherData(req.params.apiKey);
     if (req.params.apiKey != null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
