@@ -3,12 +3,7 @@ var userData = {};
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
   userData["location"] = data;
-  //storeCookie("userData",JSON.stringify(userData));
 })
-}
-
-function storeCookie(name,cookieData){
-		document.cookie = name + '=' + cookieData;
 }
 
 function getCoords(){
@@ -31,7 +26,7 @@ function saveSettings(){
             userData[element.id] = element.value;
         }
     }
-        storeCookie('userData',JSON.stringify(userData));
+        localStorage.setItem('userData',JSON.stringify(userData));
 }
 
 $('.checkbox').change(function(){

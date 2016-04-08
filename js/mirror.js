@@ -1,16 +1,16 @@
 var apiKey;
 var zip;
 var weatherData = {};
-var userDataString = getCookie('userData');
+//var userDataString = getCookie('userData');
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
-var userData = JSON.parse(getCookie('userData'));
+var userData = JSON.parse(localStorage.getItem('userData'));
 
 function loadWeatherData() {
     $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function(json) {
         //Gather weather here as object first then use it later in broken out functuions?
         weatherData = json;
-        storeCookie(JSON.stringify(json), 'weatherData');
+        localStorage.setItem('weatherData',JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
@@ -66,32 +66,7 @@ function updateDate() {
     document.querySelector('#date').innerHTML = month[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
 }
 
-function getCookie(name) {
-    //sanitizeName
-    name += "=";
-    //break cookies into array
-    var cookies = document.cookie.split(';');
-    //cycle through array until you find the cookie then break the function and return the stored value
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        if (cookie.substring(1, cookie.indexOf('=') + 1) == name) {
-            return cookie.substring(cookie.indexOf('=') + 1, cookie.length);
-        }
-    }
-}
 
-var storeCookie = function(cookieData, source) {
-    //Remember if cookie data doesnt wor you changed this function
-    if (typeof (cookieData) == {}) {
-        cookieData = JSON.stringify(cookieData);
-    }
-    if (source == null) {
-        document.cookie = cookieData;
-    } else {
-        document.cookie = source + '=' + cookieData;
-    }
-
-}
 
 loadWeatherData()
 updateDate()
