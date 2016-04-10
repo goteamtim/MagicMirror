@@ -9,6 +9,7 @@ var userData = JSON.parse(localStorage.getItem('userData'));
 function loadWeatherData() {
     $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function(json) {
         //Gather weather here as object first then use it later in broken out functuions?
+        console.log(json);
         weatherData = json;
         localStorage.setItem('weatherData',JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
