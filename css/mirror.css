@@ -16,3 +16,12 @@ i {
 #quotePadding {
     margin-top: 20px;
 }
+
+#weatherForecast {
+    list-style: none;
+    
+}
+
+.weatherForecastDay {
+    border-bottom: 1px solid white;
+}
