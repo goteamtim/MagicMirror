@@ -66,11 +66,25 @@ function updateDate() {
     document.querySelector('#date').innerHTML = month[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
 }
 
+function startCurrTime(){
+var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    m = checkTime(m);
+    document.querySelector('#currentTime').innerHTML = h + ":" + m;
+    //changeBackground();
+    var t = setTimeout(startCurrTime, 500);
+};
 
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+};
 
 loadWeatherData()
 updateDate()
 refreshQuote()
+startCurrTime()
 //Uber waiting time
 //Top stories
 //Calendar
