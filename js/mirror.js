@@ -85,6 +85,9 @@ loadWeatherData()
 updateDate()
 refreshQuote()
 startCurrTime()
+
+
 //Uber waiting time
 //Top stories
 //Calendar
+//Pop modal on mirror page if no settings have been saved.  Take user to the settings page
