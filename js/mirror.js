@@ -88,9 +88,6 @@ function refreshQuote() {
 
 function updateDrivingDistance(destLat, destLon,apiKey) {
     $.getJSON('http://localhost:3000/driveTime/' + userData.destLat +  '/' + userData.destLon + '/' + userData.distanceApiKey, function(json) {
-        //do something with json here
-        //update currentDriveTime
-        console.log(json);
         document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
     });
 }
@@ -123,7 +120,4 @@ refreshQuote()
 startCurrTime()
 updateDrivingDistance();
 
-//Uber waiting time
-//Top stories
-//Calendar
-//Pop modal on mirror page if no settings have been saved.  Take user to the settings page
+

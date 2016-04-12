@@ -60,9 +60,6 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
         }
         //handle error.  
     })
-setTimeout(function(originLatLon,destLat,destLon,driveTimeApiKey){
-    getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey);
-},900000)
 };
 
 function getRandomQuote() {
