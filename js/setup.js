@@ -1,4 +1,4 @@
-var userData = {};
+var userData = JSON.parse(localStorage.getItem('userData'));
 
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
@@ -15,6 +15,13 @@ function getCoords(){
     var lon = location.substr(location.indexOf(",")+1,location.length);
     $('#latitude').val(+lat);
     $('#longitude').val(+lon);
+}
+
+function loadUserDataObject(){
+    var inputFields =  document.querySelectorAll('.userDataField');
+    for(var i = 0; i < inputFields.length; i++ ){
+        inputFields[i].value = userData[inputFields[i].id];
+    }
 }
 
 function saveSettings(){
@@ -48,3 +55,4 @@ $('form').submit(function(event) {
 
 
 getUsersIpInformation();
+loadUserDataObject();
