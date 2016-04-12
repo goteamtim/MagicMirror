@@ -12,7 +12,8 @@ Once installed, navigate to localhost:3000/setup to setup your mirror.  You need
 
 ##TODO
 
-Add Uber wait time estimates
-Pop modal on mirror page if no settings have been saved.  Take user to the settings page
-Top stories
-Calendar integration
+#Add Uber wait time estimates
+#Pop modal on mirror page if no settings have been saved.  Take user to the settings page
+#Top stories
+#Calendar integration
+#load cookie data on setup page for items already collected
