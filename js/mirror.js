@@ -86,10 +86,12 @@ function refreshQuote() {
     })
 };
 
-function updateDrivingDistance(destLat, destLon) {
-    $.getJSON('http://localhost:3000/distance/destLat/destLon', function(json) {
+function updateDrivingDistance(destLat, destLon,apiKey) {
+    $.getJSON('http://localhost:3000/driveTime/' + userData.destLat +  '/' + userData.destLon + '/' + userData.distanceApiKey, function(json) {
         //do something with json here
         //update currentDriveTime
+        console.log(json);
+        document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
     });
 }
 
@@ -119,7 +121,7 @@ loadWeatherData()
 updateDate()
 refreshQuote()
 startCurrTime()
-
+updateDrivingDistance();
 
 //Uber waiting time
 //Top stories

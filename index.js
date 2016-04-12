@@ -44,14 +44,15 @@ function getUserLocation() {
 };
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
-    request('https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey, function(error, response, body) {
+    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey
+    console.log(url);
+    request(url, function(error, response, body) {
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
-                var currentTime = new Date().getTime();
-                console.log("Drive time status: " + body.status)
-                console.log("Got Drive Time: " + currentTime);
-                return body;
+                console.log(typeof("distType: "+body));
+                userData.driveData.content = JSON.parse(body);
+                return JSON.parse(body);
             } else {
                 console.log("Drive time status: " + body.status);
                 return body.status;
@@ -59,18 +60,18 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
         }
         //handle error.  
     })
+setTimeout(function(originLatLon,destLat,destLon,driveTimeApiKey){
+    getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey);
+},900000)
 };
 
 function getRandomQuote() {
     var parsedQuote;
-    console.log("enteredQuote");
     request('http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log("quote type: " + typeof(body));
             //Issue here
             try {
                 parsedQuote = JSON.parse(body);
-                console.log("should be object: " + typeof(parsedQuote));
             } catch (error) {
                 parsedQuote = {
                     quoteText: "Loading quote...",
@@ -116,7 +117,12 @@ app.get('/weather/:apiKey', function(req, res) {
 });
 
 app.get('/driveTime/:destLat/:destLon/:apiKey', function(req, res) {
-    res.send(getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey));
+    
+        getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey);
+    
+       res.send(userData.driveData.content);
+    
+
 });
 
 app.get('/randomQuote', function(req, res) {
