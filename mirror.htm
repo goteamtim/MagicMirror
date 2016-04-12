@@ -13,30 +13,26 @@
 
 <body>
     <div class="container-fluid">
+        
         <div class="row">
-            <div class='col-sm-12 text-right'></div>
-        </div>
-        <div class="row">
-            <div class='col-sm-12'></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
+            <div class="col-xs-3">
                 <ul id="weatherForecast"></ul>
             </div>
-            <div class="col-sm-6">
-                
+            <div class="col-xs-6">
+
                 <div id="weatherTile">
                     <canvas id="clear-night" width="128" height="128"></canvas>
-                <span id="currTemp"></span>&deg;<br>
-                <span id="currDesc"></span>
+                    <span id="currTemp"></span>&deg;
+                    <br>
+                    <span id="currDesc"></span>
                 </div>
             </div>
-            <div class="col-sm-3 text-right">
+            <div class="col-xs-3 text-right">
                 <span id="today"></span>
                 <br>
                 <span id='date'></span>
                 <br>
-                <div id="currentTime"></div>
+                <span id="currentTime"></span>
                 <br>
                 <div id="currentDriveTime"></div>
             </div>
@@ -49,14 +45,14 @@
         </div>
 
     </div>
-    
-<nav class="navbar navbar-inverse navbar-fixed-bottom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" id="weatherAlerts" >Flash Alerts here.</a>
-    </div>
-  </div>
-</nav>
+
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" id="currentAlert"></a>
+            </div>
+        </div>
+    </nav>
     <!--Scripts-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

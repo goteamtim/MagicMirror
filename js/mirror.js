@@ -47,6 +47,11 @@ function loadWeatherData() {
         localStorage.setItem('weatherData',JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
+        
+        //Alerts (if any)
+        //document.querySelector("#currentAlert").innerHTML = json.alerts[0].description;
+        
+        //5 day forecast
         var day = new Date().getDate();
         var counter = 1;
         for (var i = 0; i < 5; i++) {
@@ -57,7 +62,7 @@ function loadWeatherData() {
             var day = weekday[nextDay(day)+counter];
             var ul = document.querySelector("#weatherForecast");
             var li = document.createElement("li");
-            li.innerHTML = day.substr(0,3) + " " + tempMax + "&deg;-" + tempMin + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\"></canvas>";
+            li.innerHTML = day.substr(0,3) + " " + tempMax + "&deg;-" + tempMin + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
             li.setAttribute("class","weatherForecastDay");
             ul.appendChild(li);           
             counter++;
