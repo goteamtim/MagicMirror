@@ -31,8 +31,8 @@ var userData = JSON.parse(localStorage.getItem('userData'));
     month[10] = "November";
     month[11] = "December";
 
-function nextDay(currentDay){
-    if(currentDay = 6){
+function checkDay(currentDay){
+    if(currentDay == 6){
         return 0;
     }else{
         return currentDay;
@@ -52,14 +52,14 @@ function loadWeatherData() {
         //document.querySelector("#currentAlert").innerHTML = json.alerts[0].description;
         
         //5 day forecast
-        var day = new Date().getDate();
+        var today = new Date().getDay();
         var counter = 1;
-        for (var i = 0; i < 5; i++) {
+        for (var i = 1; i < 6; i++) {
             var dailySkycon = new Skycons({"color":"white"});
             var icon = json.daily.data[i].icon;
             var tempMax = Math.round(json.daily.data[i].temperatureMax);
             var tempMin = Math.round(json.daily.data[i].temperatureMin);
-            var day = weekday[nextDay(day)+counter];
+            var day = weekday[checkDay(today)+counter];
             var ul = document.querySelector("#weatherForecast");
             var li = document.createElement("li");
             li.innerHTML = day.substr(0,3) + " " + tempMax + "&deg;-" + tempMin + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
