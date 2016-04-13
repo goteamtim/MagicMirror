@@ -32,8 +32,8 @@ var userData = JSON.parse(localStorage.getItem('userData'));
     month[11] = "December";
 
 function checkDay(currentDay){
-    if(currentDay == 6){
-        return 0;
+    if(currentDay >= 6){
+        return currentDay % 7;
     }else{
         return currentDay;
     }
@@ -59,7 +59,7 @@ function loadWeatherData() {
             var icon = json.daily.data[i].icon;
             var tempMax = Math.round(json.daily.data[i].temperatureMax);
             var tempMin = Math.round(json.daily.data[i].temperatureMin);
-            var day = weekday[checkDay(today)+counter];
+            var day = weekday[checkDay(today+counter)];
             var ul = document.querySelector("#weatherForecast");
             var li = document.createElement("li");
             li.innerHTML = day.substr(0,3) + " " + tempMax + "&deg;-" + tempMin + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
