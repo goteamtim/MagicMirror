@@ -87,10 +87,36 @@ function getRandomQuote() {
     })
 };
 
+function getUberEstimate(latitude,longitude,uberServerToken) {
+  $.ajax({
+    url: "https://api.uber.com/v1/estimates/price",
+    headers: {
+        Authorization: "Token " + uberServerToken
+    },
+    data: {
+        start_latitude: latitude,
+        start_longitude: longitude,
+        //Dont think I need destinations currently.  Only get wait time and possibly surge pricing?
+        //end_latitude: destLatitude,
+        //end_longitude: destLongitude
+    },
+    success: function(result) {
+        console.log(result);
+    }
+  });
+}
+
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
 getUserLocation();
+
+
+
+
+
+
+
 
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
@@ -113,13 +139,14 @@ app.get('/weather/:apiKey', function(req, res) {
     res.send(userData["weather"]);
 });
 
-app.get('/driveTime/:destLat/:destLon/:apiKey', function(req, res) {
-    
-        getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey);
-    
-       res.send(userData.driveData.content);
-    
+app.get('/uber/:destLat/:destLon/:apiKey',function(req,res){
+    getUberEstimate(req.params.destLat,req.params.destLon,req.params.apiKey);
+    res.send(userData.uber);
+});
 
+app.get('/driveTime/:destLat/:destLon/:apiKey', function(req, res) {
+        getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey);
+       res.send(userData.driveData.content);
 });
 
 app.get('/randomQuote', function(req, res) {
