@@ -13,7 +13,7 @@
 
 <body>
     <div class="container-fluid">
-        
+
         <div class="row">
             <div class="col-xs-3">
                 <ul id="weatherForecast"></ul>
@@ -46,6 +46,23 @@
 
     </div>
 
+    <div class="modal fade" id="setupError" role="dialog" hidden>
+        <div class="modal-dialog">
+
+            <div class="modal-content" >
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title">Oops!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>It looks like there are some missing API keys. Head over to the setup page to add these.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='http://localhost:3000/setup.htm'">Get Setup!</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container-fluid">
             <div class="navbar-header">

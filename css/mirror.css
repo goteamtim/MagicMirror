@@ -32,3 +32,7 @@ i {
 .weatherForecastDay {
     border-bottom: 1px solid white;
 }
+
+.modal {
+    -webkit-text-fill-color: black;
+}

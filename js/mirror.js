@@ -40,9 +40,14 @@ function checkDay(currentDay){
 }
 
 function loadWeatherData() {
+    //Check to see if they filled out the API key yet
+    if (userData.weatherApiKey == null) {
+        $("#setupError").modal();
+        return null;
+    }
     $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function(json) {
         //Gather weather here as object first then use it later in broken out functuions?
-        console.log(json);
+        //console.log(json);
         weatherData = json;
         localStorage.setItem('weatherData',JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
