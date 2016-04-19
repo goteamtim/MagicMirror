@@ -1,0 +1,6 @@
+{
+  "name": "Magic Mirror",
+  "tagline": "Express app that powers magic mirror software",
+  "body": "### Welcome to the home of the Magic Mirror!\r\nThis project was designed with the idea that someone without a lot of technical experience could download this code, drop it on a raspberry pi, hook up a monitor, and have a magic mirror.  A tutorial on how to set this up is coming soon.  Changes to make the mirror custom are handled by a setup page so you don't have to dive into too much code.  \r\n\r\n### Customize\r\nThe idea is to be able to add elements and remove them as you see fit.  If you have a suggestion please feel free to fork but let me know as well!  I would love to see what you came up with.  \r\n\r\n\r\n### Authors and Contributors\r\nRight now I (@goteamtim) am the only contributor but would love some help.  Feel free to reach out if you want to help out.  I happily welcome someone else to learn with me.\r\n\r\n### Support or Contact\r\nMore documentation is on it's way.  My hope is to make the code setup as easy as possible.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
