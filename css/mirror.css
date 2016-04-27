@@ -17,6 +17,7 @@ i {
 }
 
 #weatherTile {
+    text-align: center;
 }
 
 #quotePadding {
@@ -38,6 +39,10 @@ i {
 }
 
 #currTemp {
-    font-size: 120px;
+    font-size: 170px;
+    display: inline;
+}
+
+#weatherIcon {
     display: inline;
 }
