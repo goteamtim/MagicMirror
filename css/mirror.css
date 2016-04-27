@@ -36,3 +36,8 @@ i {
 .modal {
     -webkit-text-fill-color: black;
 }
+
+#currTemp {
+    font-size: 120px;
+    display: inline;
+}

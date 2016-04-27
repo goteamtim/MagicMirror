@@ -50,7 +50,7 @@ function loadWeatherData() {
         //console.log(json);
         weatherData = json;
         localStorage.setItem('weatherData',JSON.stringify(json));
-        document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]);
+        document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]) + "&deg;";
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
         
         //Alerts (if any)
