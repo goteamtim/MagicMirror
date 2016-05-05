@@ -92,7 +92,7 @@ function refreshQuote() {
 };
 
 function updateDrivingDistance(destLat, destLon,apiKey) {
-    $.getJSON('http://localhost:3000/driveTime/' + userData.destLat +  '/' + userData.destLon + '/' + userData.distanceApiKey, function(json) {
+    $.getJSON('http://localhost:3000/driveTime/' + userData.destLat +  '/' + userData.destLon + '/' + userData.distanceApiKey).done(function(json) {
         document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
     });
 }
