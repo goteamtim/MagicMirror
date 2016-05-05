@@ -111,7 +111,7 @@ var today = new Date();
     m = checkTime(m);
     document.querySelector('#currentTime').innerHTML = h + ":" + m;
     //changeBackground();
-    var t = setTimeout(startCurrTime, 500);
+    setTimeout(startCurrTime, 500);
 };
 
 function checkTime(i) {
