@@ -47,6 +47,8 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey
     console.log(url);
     request(url, function(error, response, body) {
+        
+        
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
@@ -157,7 +159,11 @@ app.get('/randomQuote', function(req, res) {
     
 });
 
+app.get('/',function(req,res){
+    res.sendFile(__dirname + '\/mirror.htm');
+})
+
 
 app.listen(3000, function() {
-    console.log('Example app listening on port 3000!');
+    console.log('Navigate to localhost:3000 in your browser.');
 });
