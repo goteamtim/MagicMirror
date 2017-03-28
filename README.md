@@ -13,5 +13,5 @@ Once installed, navigate to localhost:3000/setup to setup your mirror.  You need
 ##TODO
 
 * Add Uber wait time estimates
-* Top stories
+* Top stories- maybe add option to send to phone or pc via email or text
 * Calendar integration

@@ -1,8 +1,9 @@
 var express = require('express');
 var app = express();
 var request = require('request');
+//var $ = require('jQuery');
 //app.use(express.cookieParser());
-var fs = require('fs');
+//var fs = require('fs');
 var userData = {
     ip_info: {},
     weather: {},
@@ -18,7 +19,7 @@ var quote = {};
 var randomQute = getRandomQuote();
 
 function updateWeatherData(key) {
-    console.log("PassedKey: "+ key);
+    //console.log("PassedKey: "+ key);
     //Check if the ip information exists and if it doesnt call the function and wait
     if (!userData["ip_info"].hasOwnProperty("loc")) {
         getUserLocation();
@@ -107,6 +108,27 @@ function getUberEstimate(latitude,longitude,uberServerToken) {
     }
   });
 }
+
+
+
+
+function updateRSSFeed(feedURL){
+    $.get(FEED_URL, function (data) {
+    $(data).find("entry").each(function () { // or "item" or whatever suits your feed
+        var el = $(this);
+
+        console.log("------------------------");
+        console.log("title      : " + el.find("title").text());
+        console.log("author     : " + el.find("author").text());
+        console.log("description: " + el.find("description").text());
+    });
+});
+
+}
+
+
+
+
 
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
