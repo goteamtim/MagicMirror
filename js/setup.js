@@ -1,4 +1,4 @@
-var userData = JSON.parse(localStorage.getItem('userData'));
+var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
