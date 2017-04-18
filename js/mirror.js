@@ -67,7 +67,7 @@ function loadWeatherData() {
             var day = weekday[checkDay(today + counter)];
             var ul = document.querySelector("#weatherForecast");
             var li = document.createElement("li");
-            li.innerHTML = day.substr(0, 3) + " " + tempMax + "&deg;-" + tempMin + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
+            li.innerHTML = day.substr(0, 3) + " " + tempMin + "&deg;-" + tempMax + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
             li.setAttribute("class", "weatherForecastDay");
             ul.appendChild(li);
             counter++;

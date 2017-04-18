@@ -38,15 +38,14 @@ gulp.task('nodemon', function (cb) {
 
 // Default task
 gulp.task('default',['browsersync','watch']);
-// gulp.task('default', function() {
-//     gulp.start('browsersync');
-//     gulp.start('watch');
-// });
 
-// Watch
 gulp.task('watch', function() {
 
-    // Watch .scss files
     gulp.watch(['**.**','./**/*.*'], reload);
+
+});
+
+gulp.task('deploy', function(){
+
 
 });
