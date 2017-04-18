@@ -50,3 +50,4 @@ node_modules
 js/db.js
 .firebaserc
 database.rules.json
+public
