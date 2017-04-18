@@ -1,17 +1,29 @@
-var gulp        = require('gulp');
+var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
-var reload      = browserSync.reload;
-var nodemon     = require('gulp-nodemon')
+var reload = browserSync.reload;
+var nodemon = require('gulp-nodemon');
+var clean = require('gulp-clean');
+
+var filesForDist = [
+  './js/*.*',
+  './css/*.*',
+  './img/*.*',
+  'index.js',
+  'mirror.html',
+  'setup.html',
+  'firebase.json',
+  'database.rules.json'
+];
 
 // Static server
-gulp.task('browsersync',['nodemon'], function() {
-    browserSync.init({
-        proxy: "localhost:3000",  // local node app address
+gulp.task('browsersync', ['nodemon'], function () {
+  browserSync.init({
+    proxy: "localhost:3000",  // local node app address
     port: 5000,  // use *different* port than above
     notify: true
-    });
-    
-    //gulp.watch("*.*").on('change',function(){console.log("gulp watched")});  //reload
+  });
+
+  //gulp.watch("*.*").on('change',function(){console.log("gulp watched")});  //reload
 });
 
 gulp.task('nodemon', function (cb) {
@@ -23,29 +35,36 @@ gulp.task('nodemon', function (cb) {
       'node_modules/'
     ]
   })
-  .on('start', function () {
-    if (!called) {
-      called = true;
-      cb();
-    }
-  })
-  .on('restart', function () {
-    setTimeout(function () {
-      reload({ stream: false });
-    }, 1000);
-  });
+    .on('start', function () {
+      if (!called) {
+        called = true;
+        cb();
+      }
+    })
+    .on('restart', function () {
+      setTimeout(function () {
+        reload({ stream: false });
+      }, 1000);
+    });
 });
 
 // Default task
-gulp.task('default',['browsersync','watch']);
+gulp.task('default', ['browsersync', 'watch']);
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
 
-    gulp.watch(['**.**','./**/*.*'], reload);
+  gulp.watch(['**.**', './**/*.*'], reload);
 
 });
 
-gulp.task('deploy', function(){
+gulp.task('clean',function(){
+  return gulp.src(['public/*'], {read:false})
+  .pipe(clean());
+})
 
+gulp.task('deploy',['clean'], function () {
+
+  gulp.src(filesForDist, { base: './' })
+    .pipe(gulp.dest('public'));
 
 });
