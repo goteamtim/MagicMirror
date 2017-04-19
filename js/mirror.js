@@ -47,7 +47,7 @@ function loadWeatherData() {
     }
     $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function (json) {
         //Gather weather here as object first then use it later in broken out functuions?
-        //console.log(json);
+        console.log(json);
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]) + "&deg;";
@@ -119,12 +119,15 @@ function checkTime(i) {
     return i;
 };
 
+function init() {
+    loadWeatherData();
+    updateDate();
+    refreshQuote();
+    startCurrTime();
+    updateDrivingDistance();
+}
 
 
-loadWeatherData()
-updateDate()
-refreshQuote()
-startCurrTime()
-updateDrivingDistance();
 
+setTimeout(init,1500);
 
