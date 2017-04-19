@@ -4,7 +4,7 @@ var weatherData = {};
 //var userDataString = getCookie('userData');
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
-var userData = JSON.parse(localStorage.getItem('userData'));
+var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
 
 var weekday = new Array(7);
