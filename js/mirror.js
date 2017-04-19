@@ -41,7 +41,7 @@ function checkDay(currentDay) {
 
 function loadWeatherData() {
     //Check to see if they filled out the API key yet
-    if (userData.weatherApiKey == null) {
+    if (!userData.hasOwnProperty('weatherApiKey')) {
         $("#setupError").modal();
         return null;
     }
