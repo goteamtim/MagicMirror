@@ -15,8 +15,7 @@
     "gulp-clean": "^0.3.2"
   },
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "npm install"
+    "start": "node index.js"
   },
   "keywords": [
     "mirror",
