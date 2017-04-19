@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-var firebase = require('./js/db.js')
+//var firebase = require('./js/db.js')
 //var $ = require('jQuery');
 //app.use(express.cookieParser());
 //var fs = require('fs');
