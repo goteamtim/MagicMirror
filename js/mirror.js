@@ -45,7 +45,7 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    $.getJSON("http://localhost:3000/weather/" + userData.weatherApiKey, function (json) {
+    $.getJSON("/weather/" + userData.weatherApiKey, function (json) {
         //Gather weather here as object first then use it later in broken out functuions?
         console.log(json);
         weatherData = json;
@@ -82,7 +82,7 @@ function loadWeatherData() {
 };
 
 function refreshQuote() {
-    $.getJSON("http://localhost:3000/randomQuote", function (json) {
+    $.getJSON("/randomQuote", function (json) {
         document.querySelector("#quote").innerHTML = json.quoteText;
         document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
         if (json.quoteAuthor == "") {
@@ -92,7 +92,7 @@ function refreshQuote() {
 };
 
 function updateDrivingDistance(destLat, destLon, apiKey) {
-    $.getJSON('http://localhost:3000/driveTime/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
+    $.getJSON('/driveTime/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
         document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
     });
 }
