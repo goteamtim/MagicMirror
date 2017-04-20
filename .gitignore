@@ -46,8 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+
 node_modules
-js/db.js
+node_modules/request
+#js/db.js
 .firebaserc
 database.rules.json
 public

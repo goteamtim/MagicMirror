@@ -4,11 +4,10 @@ var reload = browserSync.reload;
 var nodemon = require('gulp-nodemon');
 var clean = require('gulp-clean');
 
-var filesForDist = [
+var filesForFirebase = [
   './js/*.*',
   './css/*.*',
   './img/*.*',
-  'index.js',
   'mirror.html',
   'setup.html',
   'firebase.json',
@@ -62,7 +61,7 @@ gulp.task('clean',function(){
   .pipe(clean());
 })
 
-gulp.task('deploy',['clean'], function () {
+gulp.task('build firebase',['clean'], function () {
 
   gulp.src(filesForDist, { base: './' })
     .pipe(gulp.dest('public'));
