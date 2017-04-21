@@ -15,7 +15,8 @@ var userData = {
         content: {}
     }
 };
-var quote = {};
+var quote = {},
+port = process.env.PORT || 3000;
 
 var randomQute = getRandomQuote();
 
@@ -28,7 +29,7 @@ function updateWeatherData(key) {
         return;
     }
 
-    request('https://api.forecast.io/forecast/' + key + '/' + userData["ip_info"].loc, function(error, response, body) {
+    request('https://api.forecast.io/forecast/' + key + '/' + userData.ip_info.loc, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData["weather"] = body;
         } else { console.log("API call to weather not working.\n" + error); }
@@ -161,7 +162,7 @@ app.get('/weather/:apiKey', function(req, res) {
         userData.weatherAPIKey = req.params.apiKey;
     }
     
-    res.send(userData["weather"]);
+    res.send(userData.weather);
 });
 
 app.get('/uber/:destLat/:destLon/:apiKey',function(req,res){
@@ -187,6 +188,6 @@ app.get('/',function(req,res){
 })
 
 
-app.listen(process.env.PORT || 3000, function() {
-    console.log('Navigate to localhost:3000 in your browser.');
+app.listen(port, function() {
+    console.log('Navigate to localhost:' + port + ' in your browser.');
 });
