@@ -19,31 +19,23 @@ var quote = {};
 
 var randomQute = getRandomQuote();
 
-function updateWeatherData(key) {
+function updateWeatherData(key,location) {
     //console.log("PassedKey: "+ key);
     //Check if the ip information exists and if it doesnt call the function and wait
-    if (!userData["ip_info"].hasOwnProperty("loc")) {
-        getUserLocation();
-        setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
-        return;
-    }
-
-    request('https://api.forecast.io/forecast/' + key + '/' + userData["ip_info"].loc, function(error, response, body) {
+    // if (!userData["ip_info"].hasOwnProperty("loc")) {
+    //     getUserLocation();
+    //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
+    //     return;
+    // }
+    console.log
+    request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
         if (!error && response.statusCode == 200) {
-            userData["weather"] = body;
+            userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
     })
 };
 
-function getUserLocation() {
-    request('http://ipinfo.io', function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            userData["ip_info"] = JSON.parse(body);
-        } else {
-            console.log("Error in IP: " + error);
-        }
-    })
-};
+
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey
@@ -134,7 +126,7 @@ function updateRSSFeed(feedURL){
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
-getUserLocation();
+//getUserLocation();
 
 
 
@@ -155,13 +147,13 @@ app.get('/setup', function(req, res) {
     res.sendFile(__dirname + '\/setup.htm');
 });
 
-app.get('/weather/:apiKey', function(req, res) {
-    updateWeatherData(req.params.apiKey);
+app.get('/weather/:apiKey/:location', function(req, res) {
+    updateWeatherData(req.params.apiKey,location);
     if (req.params.apiKey != null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
     
-    res.send(userData["weather"]);
+    res.send(userData.weather);
 });
 
 app.get('/uber/:destLat/:destLon/:apiKey',function(req,res){
@@ -169,8 +161,9 @@ app.get('/uber/:destLat/:destLon/:apiKey',function(req,res){
     res.send(userData.uber);
 });
 
-app.get('/driveTime/:destLat/:destLon/:apiKey', function(req, res) {
-        getCurrentDriveTime(userData.ip_info.loc,req.params.destLat,req.params.destLon,req.params.apiKey);
+app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function(req, res) {
+        getCurrentDriveTime(req.params.currLocation,req.params.destLat,req.params.destLon,req.params.apiKey);
+        console.log(userData.driveData.content);
        res.send(userData.driveData.content);
 });
 

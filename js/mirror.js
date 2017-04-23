@@ -45,12 +45,12 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    $.getJSON("/weather/" + userData.weatherApiKey, function (json) {
+    $.getJSON("/weather/" + userData.weatherApiKey +'/'+userData.ip_info.loc, function (json) {
         //Gather weather here as object first then use it later in broken out functuions?
         console.log(json);
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
-        document.querySelector("#currTemp").innerHTML = Math.round(json.currently["apparentTemperature"]) + "&deg;";
+        document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature) + "&deg;";
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
         //Alerts (if any)
@@ -91,8 +91,8 @@ function refreshQuote() {
     })
 };
 
-function updateDrivingDistance(destLat, destLon, apiKey) {
-    $.getJSON('/driveTime/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
+function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
+    $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
         document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
     });
 }
@@ -119,12 +119,20 @@ function checkTime(i) {
     return i;
 };
 
+function getUsersIpInformation(){
+    $.getJSON('http://ipinfo.io', function(data){
+  userData["ip_info"] = data;
+  localStorage.setItem('userData',JSON.stringify(userData))
+})
+}
+
 function init() {
+    getUsersIpInformation();
     loadWeatherData();
     updateDate();
     refreshQuote();
     startCurrTime();
-    updateDrivingDistance();
+    updateDrivingDistance(userData.ip_info.loc);
 }
 
 

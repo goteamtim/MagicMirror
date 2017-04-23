@@ -2,15 +2,25 @@ var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
-  userData["location"] = data;
+  userData["ip_info"] = data;
 })
 }
+
+// function getUserLocation() {
+//     request('http://ipinfo.io', function(error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//             userData["ip_info"] = JSON.parse(body);
+//         } else {
+//             console.log("Error in IP: " + error);
+//         }
+//     });
+// } 
 
 function getCoords(){
     if(!userData.hasOwnProperty("location")){
         getUsersIpInformation();
     }
-    var location = userData.location.loc;
+    var location = userData.ip_info.loc;
     var lat = location.substr(0,location.indexOf(","));
     var lon = location.substr(location.indexOf(",")+1,location.length);
     $('#latitude').val(+lat);
