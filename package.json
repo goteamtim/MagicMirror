@@ -1,5 +1,5 @@
 {
-  "name": "MagicMirror",
+  "name": "magicmirror",
   "version": "1.0.0",
   "description": "This app supplies the interface for a magic mirror.",
   "main": "index.js",
@@ -19,7 +19,8 @@
     "node": "4.2.5"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "keywords": [
     "mirror",
