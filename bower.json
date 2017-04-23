@@ -1,5 +1,5 @@
 {
-  "name": "MagicMirror",
+  "name": "magicmirror",
   "description": "This app supplies the interface for a magic mirror.",
   "main": "index.js",
   "authors": [
