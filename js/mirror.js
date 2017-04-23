@@ -47,7 +47,12 @@ function loadWeatherData() {
     }
     $.getJSON("/weather/" + userData.weatherApiKey +'/'+userData.ip_info.loc, function (json) {
         //Gather weather here as object first then use it later in broken out functuions?
-        console.log(json);
+        if(!json.hasOwnProperty('currently')){
+            setTimeout(function() {
+                loadWeatherData();
+                //Need to handle for having a loop here.
+            }, 500);
+        }
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
         document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature) + "&deg;";

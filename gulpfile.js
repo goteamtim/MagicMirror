@@ -52,7 +52,7 @@ gulp.task('default', ['browsersync', 'watch']);
 
 gulp.task('watch', function () {
 
-  gulp.watch(['**.**', './**/*.*'], reload);
+  gulp.watch(['**.**', 'js/*','css/*'], reload);
 
 });
 

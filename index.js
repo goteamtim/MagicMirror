@@ -15,13 +15,15 @@ var userData = {
         content: {}
     }
 };
-var quote = {};
+var quote = {},
+port = process.env.PORT || 3000;
 
 var randomQute = getRandomQuote();
 
 function updateWeatherData(key,location) {
     //console.log("PassedKey: "+ key);
     //Check if the ip information exists and if it doesnt call the function and wait
+<<<<<<< HEAD
     // if (!userData["ip_info"].hasOwnProperty("loc")) {
     //     getUserLocation();
     //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
@@ -29,6 +31,15 @@ function updateWeatherData(key,location) {
     // }
     console.log
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
+=======
+    if (!userData["ip_info"].hasOwnProperty("loc")) {
+        getUserLocation();
+        setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
+        return;
+    }
+
+    request('https://api.forecast.io/forecast/' + key + '/' + userData.ip_info.loc, function(error, response, body) {
+>>>>>>> afd07477cf88738546cd6ed289271400f87c7cbd
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
@@ -180,6 +191,6 @@ app.get('/',function(req,res){
 })
 
 
-app.listen(process.env.PORT || 3000, function() {
-    console.log('Navigate to localhost:3000 in your browser.');
+app.listen(port, function() {
+    console.log('Navigate to localhost:' + port + ' in your browser.');
 });

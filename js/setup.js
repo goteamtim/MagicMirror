@@ -2,7 +2,11 @@ var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
 function getUsersIpInformation(){
     $.getJSON('http://ipinfo.io', function(data){
+<<<<<<< HEAD
   userData["ip_info"] = data;
+=======
+  userData.location = data;
+>>>>>>> afd07477cf88738546cd6ed289271400f87c7cbd
 })
 }
 
