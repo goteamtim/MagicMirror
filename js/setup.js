@@ -1,13 +1,13 @@
 var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
 function getUsersIpInformation(){
-    $.getJSON('http://ipinfo.io', function(data){
+    $.getJSON('https://ipinfo.io', function(data){
   userData.location = data;
 })
 }
 
 // function getUserLocation() {
-//     request('http://ipinfo.io', function(error, response, body) {
+//     request('https://ipinfo.io', function(error, response, body) {
 //         if (!error && response.statusCode == 200) {
 //             userData["ip_info"] = JSON.parse(body);
 //         } else {

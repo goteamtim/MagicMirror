@@ -125,7 +125,7 @@ function checkTime(i) {
 };
 
 function getUsersIpInformation(){
-    $.getJSON('http://ipinfo.io', function(data){
+    $.getJSON('https://ipinfo.io', function(data){
   userData["ip_info"] = data;
   localStorage.setItem('userData',JSON.stringify(userData))
 })
