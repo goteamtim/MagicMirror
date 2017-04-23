@@ -23,23 +23,12 @@ var randomQute = getRandomQuote();
 function updateWeatherData(key,location) {
     //console.log("PassedKey: "+ key);
     //Check if the ip information exists and if it doesnt call the function and wait
-<<<<<<< HEAD
     // if (!userData["ip_info"].hasOwnProperty("loc")) {
     //     getUserLocation();
     //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
     //     return;
     // }
-    console.log
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
-=======
-    if (!userData["ip_info"].hasOwnProperty("loc")) {
-        getUserLocation();
-        setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
-        return;
-    }
-
-    request('https://api.forecast.io/forecast/' + key + '/' + userData.ip_info.loc, function(error, response, body) {
->>>>>>> afd07477cf88738546cd6ed289271400f87c7cbd
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
@@ -131,20 +120,10 @@ function updateRSSFeed(feedURL){
 }
 
 
-
-
-
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
 //getUserLocation();
-
-
-
-
-
-
-
 
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
@@ -159,8 +138,8 @@ app.get('/setup', function(req, res) {
 });
 
 app.get('/weather/:apiKey/:location', function(req, res) {
-    updateWeatherData(req.params.apiKey,location);
-    if (req.params.apiKey != null) {
+    updateWeatherData(req.params.apiKey,req.params.location);
+    if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
     
