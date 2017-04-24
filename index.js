@@ -130,8 +130,9 @@ function updateRSSFeed(feedURL) {
 
     request(feedURL, function (error, response, body) {
         var responseText = body;
-        var entry = responseText.indexOf('<entry>',responseText.indexOf('</entry>'))
+        var entry = responseText.substr(responseText.indexOf('<name>'),responseText.indexOf('</name>'))
         console.log(entry)
+        console.log()
     });
 
 }
