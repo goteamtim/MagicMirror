@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var request = require('request');
 //var firebase = require('./js/db.js')
-//var $ = require('jQuery');
+var FeedParser = require('feedparser');
+var jsdom = require('jsdom')
 //app.use(express.cookieParser());
 //var fs = require('fs');
 var userData = {
@@ -16,11 +17,11 @@ var userData = {
     }
 };
 var quote = {},
-port = process.env.PORT || 3000;
+    port = process.env.PORT || 3000;
 
 var randomQute = getRandomQuote();
 
-function updateWeatherData(key,location) {
+function updateWeatherData(key, location) {
     //console.log("PassedKey: "+ key);
     //Check if the ip information exists and if it doesnt call the function and wait
     // if (!userData["ip_info"].hasOwnProperty("loc")) {
@@ -28,7 +29,7 @@ function updateWeatherData(key,location) {
     //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
     //     return;
     // }
-    request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
+    request('https://api.forecast.io/forecast/' + key + '/' + location, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
@@ -37,16 +38,16 @@ function updateWeatherData(key,location) {
 
 
 
-function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
-    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey
+function getCurrentDriveTime(originLatLon, destLat, destLon, driveTimeApiKey) {
+    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key=' + driveTimeApiKey
     console.log(url);
-    request(url, function(error, response, body) {
-        
-        
+    request(url, function (error, response, body) {
+
+
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
-                console.log(typeof("distType: "+body));
+                console.log(typeof ("distType: " + body));
                 userData.driveData.content = JSON.parse(body);
                 return JSON.parse(body);
             } else {
@@ -60,7 +61,7 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
 
 function getRandomQuote() {
     var parsedQuote;
-    request('http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en', function(error, response, body) {
+    request('http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             //Issue here
             try {
@@ -71,9 +72,11 @@ function getRandomQuote() {
                     quoteAuthor: ""
                 };
                 //Set function to run again so a real quote is saved
-                setTimeout(function(){getRandomQuote();
-                    console.log("\nTrying again\n");},500);
-                
+                setTimeout(function () {
+                    getRandomQuote();
+                    console.log("\nTrying again\n");
+                }, 500);
+
             }
             randomQute = parsedQuote;
             return parsedQuote;
@@ -83,43 +86,57 @@ function getRandomQuote() {
     })
 };
 
-function getUberEstimate(latitude,longitude,uberServerToken) {
-  $.ajax({
-    url: "https://api.uber.com/v1/estimates/price",
-    headers: {
-        Authorization: "Token " + uberServerToken
-    },
-    data: {
-        start_latitude: latitude,
-        start_longitude: longitude,
-        //Dont think I need destinations currently.  Only get wait time and possibly surge pricing?
-        //end_latitude: destLatitude,
-        //end_longitude: destLongitude
-    },
-    success: function(result) {
-        console.log(result);
-    }
-  });
-}
-
-
-
-
-function updateRSSFeed(feedURL){
-    $.get(FEED_URL, function (data) {
-    $(data).find("entry").each(function () { // or "item" or whatever suits your feed
-        var el = $(this);
-
-        console.log("------------------------");
-        console.log("title      : " + el.find("title").text());
-        console.log("author     : " + el.find("author").text());
-        console.log("description: " + el.find("description").text());
+function getUberEstimate(latitude, longitude, uberServerToken) {
+    $.ajax({
+        url: "https://api.uber.com/v1/estimates/price",
+        headers: {
+            Authorization: "Token " + uberServerToken
+        },
+        data: {
+            start_latitude: latitude,
+            start_longitude: longitude,
+            //Dont think I need destinations currently.  Only get wait time and possibly surge pricing?
+            //end_latitude: destLatitude,
+            //end_longitude: destLongitude
+        },
+        success: function (result) {
+            console.log(result);
+        }
     });
-});
-
 }
 
 
+
+
+function updateRSSFeed(feedURL) {
+
+    // jsdom.env(
+    //         feedURL,
+    //         ["http://code.jquery.com/jquery.js"],
+    //         function (err, window) {
+    //             //console.log("there have been", window.$("a").length - 4, "io.js releases!");
+    //             console.log(window)
+
+    //             window.$(window).find("entry").each(function () { // or "item" or whatever suits your feed
+    //                 var el = window.$(this);
+
+    //                 console.log("------------------------");
+    //                 console.log("title      : " + el.find("title").text());
+    //                 console.log("author     : " + el.find("name").text());
+    //                 console.log("content: " + el.find("content").text());
+    //             });
+    //         }
+    //     );
+
+    request(feedURL, function (error, response, body) {
+        var responseText = body;
+        var entry = responseText.indexOf('<entry>',responseText.indexOf('</entry>'))
+        console.log(entry)
+    });
+
+}
+
+updateRSSFeed('https://www.reddit.com/r/gifs/.rss')
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
@@ -129,47 +146,47 @@ setInterval(updateWeatherData, 60000 * 60);
 app.use(express.static(__dirname));
 
 //Impliment users?
-app.get('/mirror/:userName', function(req, res) {
+app.get('/mirror/:userName', function (req, res) {
     res.sendFile(__dirname + '\/mirror.htm?userID=' + req.params.userName);
 });
 
-app.get('/setup', function(req, res) {
+app.get('/setup', function (req, res) {
     res.sendFile(__dirname + '\/setup.htm');
 });
 
-app.get('/weather/:apiKey/:location', function(req, res) {
-    updateWeatherData(req.params.apiKey,req.params.location);
+app.get('/weather/:apiKey/:location', function (req, res) {
+    updateWeatherData(req.params.apiKey, req.params.location);
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
-    
+
     res.send(userData.weather);
 });
 
-app.get('/uber/:destLat/:destLon/:apiKey',function(req,res){
-    getUberEstimate(req.params.destLat,req.params.destLon,req.params.apiKey);
+app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
+    getUberEstimate(req.params.destLat, req.params.destLon, req.params.apiKey);
     res.send(userData.uber);
 });
 
-app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function(req, res) {
-        getCurrentDriveTime(req.params.currLocation,req.params.destLat,req.params.destLon,req.params.apiKey);
-        console.log(userData.driveData.content);
-       res.send(userData.driveData.content);
+app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
+    getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
+    console.log(userData.driveData.content);
+    res.send(userData.driveData.content);
 });
 
-app.get('/randomQuote', function(req, res) {
-    
-        res.send(randomQute);
-        //Get the next random quote since sometimes it has to go through a few to find valid json
+app.get('/randomQuote', function (req, res) {
+
+    res.send(randomQute);
+    //Get the next random quote since sometimes it has to go through a few to find valid json
     getRandomQuote();
-    
+
 });
 
-app.get('/',function(req,res){
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '\/mirror.htm');
 })
 
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log('Navigate to localhost:' + port + ' in your browser.');
 });
