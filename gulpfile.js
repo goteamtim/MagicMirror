@@ -59,7 +59,7 @@ gulp.task('watch', function () {
 gulp.task('clean',function(){
   return gulp.src(['public/*'], {read:false})
   .pipe(clean());
-})
+});
 
 gulp.task('build firebase',['clean'], function () {
 

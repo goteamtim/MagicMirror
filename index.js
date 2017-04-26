@@ -18,31 +18,25 @@ var userData = {
 var quote = {},
 port = process.env.PORT || 3000;
 
-const CONSTANTS = {
-    "HOUR_IN_MS": 3600000
-}
+var CONSTANTS = {
+    "HOUR_IN_MS": 3600000,
+    "HALF_A_SECOND": 500
+};
 
 var randomQute = getRandomQuote();
 
 function updateWeatherData(key,location) {
-    //console.log("PassedKey: "+ key);
-    //Check if the ip information exists and if it doesnt call the function and wait
-    // if (!userData["ip_info"].hasOwnProperty("loc")) {
-    //     getUserLocation();
-    //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
-    //     return;
-    // }
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
-    })
-};
+    });
+}
 
 
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
-    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey
+    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
     console.log(url);
     request(url, function(error, response, body) {
         
@@ -59,8 +53,8 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
             }
         }
         //handle error.  
-    })
-};
+    });
+}
 
 function getRandomQuote() {
     var parsedQuote;
@@ -75,8 +69,7 @@ function getRandomQuote() {
                     quoteAuthor: ""
                 };
                 //Set function to run again so a real quote is saved
-                setTimeout(function(){getRandomQuote();
-                    console.log("\nTrying again\n");},500);
+                setTimeout(getRandomQuote(),CONSTANTS.HALF_A_SECOND);
                 
             }
             randomQute = parsedQuote;
@@ -84,8 +77,8 @@ function getRandomQuote() {
         } else {
             console.log("Error in quote: " + error);
         }
-    })
-};
+    });
+}
 
 function getUberEstimate(latitude,longitude,uberServerToken) {
   $.ajax({
@@ -171,7 +164,7 @@ app.get('/randomQuote', function(req, res) {
 
 app.get('/',function(req,res){
     res.sendFile(__dirname + '\/mirror.htm');
-})
+});
 
 
 app.listen(port, function() {
