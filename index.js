@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var request = require('request');
+var CONSTANTS = require('./js/constants.js');
 //var firebase = require('./js/db.js')
 //var $ = require('jQuery');
 //app.use(express.cookieParser());
@@ -17,11 +18,6 @@ var userData = {
 };
 var quote = {},
 port = process.env.PORT || 3000;
-
-var CONSTANTS = {
-    "HOUR_IN_MS": 3600000,
-    "HALF_A_SECOND": 500
-};
 
 var randomQute = getRandomQuote();
 
@@ -76,6 +72,7 @@ function getRandomQuote() {
             return parsedQuote;
         } else {
             console.log("Error in quote: " + error);
+            // return null;
         }
     });
 }
