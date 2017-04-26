@@ -6,16 +6,6 @@ function getUsersIpInformation(){
 })
 }
 
-// function getUserLocation() {
-//     request('https://ipinfo.io', function(error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             userData["ip_info"] = JSON.parse(body);
-//         } else {
-//             console.log("Error in IP: " + error);
-//         }
-//     });
-// } 
-
 function getCoords(){
     if(!userData.hasOwnProperty("location")){
         getUsersIpInformation();
@@ -34,16 +24,21 @@ function loadUserDataObject(){
     }
 }
 
-function saveSettings(){
+function saveSettings() {
     var inputFields = document.querySelectorAll('.userDataField');
     for (var i = 0; i < inputFields.length; i++) {
         var element = inputFields[i];
         console.log(element);
-        if(element.value !== ""){
-            userData[element.id] = element.value;
+
+        if (element.value !== "") {
+            if (element.type === "checkbox") {
+                userData[element.id] = element.checked;
+            } else {
+                userData[element.id] = element.value;
+            }
         }
     }
-        localStorage.setItem('userData',JSON.stringify(userData));
+    localStorage.setItem('userData', JSON.stringify(userData));
 }
 
 $('.checkbox').change(function(){

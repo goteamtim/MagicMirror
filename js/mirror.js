@@ -51,7 +51,7 @@ function loadWeatherData() {
             setTimeout(function() {
                 loadWeatherData();
                 //Need to handle for having a loop here.
-            }, CONSTANTS.HALF_A_SECOND);
+            }, 500);
         }
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
@@ -80,7 +80,7 @@ function loadWeatherData() {
             dailySkycon.play();
         }
         var skycons = new Skycons({ "color": "white" });
-        skycons.add("clear-night", json.currently["icon"]);
+        skycons.add("clear-night", json.currently.icon);
         skycons.play();
     })
 
