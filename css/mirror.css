@@ -46,3 +46,7 @@ i {
 #weatherIcon {
     display: inline;
 }
+
+.bottom-display {
+    text-align: center;
+}
