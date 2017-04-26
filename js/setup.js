@@ -20,7 +20,7 @@ function getCoords(){
     if(!userData.hasOwnProperty("location")){
         getUsersIpInformation();
     }
-    var location = userData.ip_info.loc;
+    var location = userData.location.loc;
     var lat = location.substr(0,location.indexOf(","));
     var lon = location.substr(location.indexOf(",")+1,location.length);
     $('#latitude').val(+lat);
@@ -39,7 +39,7 @@ function saveSettings(){
     for (var i = 0; i < inputFields.length; i++) {
         var element = inputFields[i];
         console.log(element);
-        if(element.value != ""){
+        if(element.value !== ""){
             userData[element.id] = element.value;
         }
     }

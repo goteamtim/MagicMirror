@@ -1,6 +1,6 @@
-var apiKey;
-var zip;
-var weatherData = {};
+var apiKey,
+zip,
+weatherData = {};
 //var userDataString = getCookie('userData');
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
@@ -51,7 +51,7 @@ function loadWeatherData() {
             setTimeout(function() {
                 loadWeatherData();
                 //Need to handle for having a loop here.
-            }, 500);
+            }, CONSTANTS.HALF_A_SECOND);
         }
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
