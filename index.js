@@ -69,7 +69,7 @@ function getRandomQuote() {
                     quoteAuthor: ""
                 };
                 //Set function to run again so a real quote is saved
-                setTimeout(getRandomQuote(),CONSTANTS.HALF_A_SECOND);
+                setTimeout(getRandomQuote,CONSTANTS.HALF_A_SECOND);
                 
             }
             randomQute = parsedQuote;
