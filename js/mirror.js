@@ -38,7 +38,10 @@ function checkDay(currentDay) {
         return currentDay;
     }
 }
-
+/**Calls the server to get information about the current weather conditions
+ * @param {string} weatherApiKey - API key for weather underground
+ * @param {string} location - Location of the weather in lat/long string
+ */
 function loadWeatherData() {
     //Check to see if they filled out the API key yet
     if (!userData.hasOwnProperty('weatherApiKey')) {
