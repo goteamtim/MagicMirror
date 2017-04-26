@@ -18,6 +18,10 @@ var userData = {
 var quote = {},
 port = process.env.PORT || 3000;
 
+const CONSTANTS = {
+    "HOUR_IN_MS": 3600000
+}
+
 var randomQute = getRandomQuote();
 
 function updateWeatherData(key,location) {
@@ -121,7 +125,7 @@ function updateRSSFeed(feedURL){
 
 
 updateWeatherData(userData.weatherAPIKey);
-setInterval(updateWeatherData, 60000 * 60);
+setInterval(updateWeatherData, CONSTANTS.HOUR_IN_MS);
 //getRandomQuote();
 //getUserLocation();
 
