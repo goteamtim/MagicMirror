@@ -110,34 +110,49 @@ function getUberEstimate(latitude, longitude, uberServerToken) {
 
 function updateRSSFeed(feedURL) {
 
-    // jsdom.env(
-    //         feedURL,
-    //         ["http://code.jquery.com/jquery.js"],
-    //         function (err, window) {
-    //             //console.log("there have been", window.$("a").length - 4, "io.js releases!");
-    //             console.log(window)
+    var req = request(feedURL)
+    var feedparser = new FeedParser([]);
 
-    //             window.$(window).find("entry").each(function () { // or "item" or whatever suits your feed
-    //                 var el = window.$(this);
-
-    //                 console.log("------------------------");
-    //                 console.log("title      : " + el.find("title").text());
-    //                 console.log("author     : " + el.find("name").text());
-    //                 console.log("content: " + el.find("content").text());
-    //             });
-    //         }
-    //     );
-
-    request(feedURL, function (error, response, body) {
-        var responseText = body;
-        var entry = responseText.substr(responseText.indexOf('<name>'),responseText.indexOf('</name>'))
-        console.log(entry)
-        console.log()
+    req.on('error', function (error) {
+        // handle any request errors 
     });
+
+    req.on('response', function (res) {
+        var stream = this; // `this` is `req`, which is a stream 
+
+        if (res.statusCode !== 200) {
+            this.emit('error', new Error('Bad status code'));
+        }
+        else {
+            stream.pipe(feedparser);
+        }
+    });
+
+    feedparser.on('error', function (error) {
+        // always handle errors 
+    });
+
+    feedparser.on('readable', function () {
+        // This is where the action is! 
+        var stream = this; // `this` is `feedparser`, which is a stream 
+        var meta = this.meta; // **NOTE** the "meta" is always available in the context of the feedparser instance 
+        var item;
+
+        while (item = stream.read()) {
+            console.log(item.title);
+        }
+    });
+
+    // request(feedURL, function (error, response, body) {
+    //     var responseText = body;
+    //     var entry = responseText.substr(responseText.indexOf('<name>'),responseText.indexOf('</name>'))
+    //     console.log(entry)
+    //     console.log()
+    // });
 
 }
 
-updateRSSFeed('https://www.reddit.com/r/gifs/.rss')
+updateRSSFeed('https://www.reddit.com/r/UpliftingNews/.rss')
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
