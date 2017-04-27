@@ -152,7 +152,7 @@ function updateRSSFeed(feedURL) {
 
 }
 
-updateRSSFeed('https://www.reddit.com/r/UpliftingNews/.rss')
+updateRSSFeed('http://www.goodnewsnetwork.org/feed/')
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
