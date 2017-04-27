@@ -112,6 +112,7 @@ function updateRSSFeed(feedURL) {
 
     var req = request(feedURL)
     var feedparser = new FeedParser([]);
+    var headlines = [];
 
     req.on('error', function (error) {
         // handle any request errors 
@@ -139,12 +140,13 @@ function updateRSSFeed(feedURL) {
         var item;
 
         while (item = stream.read()) {
-            console.log(item.title);
+            headlines.push(item.title);
         }
     });
+    return headlines;
 }
 
-updateRSSFeed('http://www.goodnewsnetwork.org/feed/')
+var rssHeadlines = updateRSSFeed('http://www.goodnewsnetwork.org/feed/')
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
