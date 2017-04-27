@@ -142,14 +142,6 @@ function updateRSSFeed(feedURL) {
             console.log(item.title);
         }
     });
-
-    // request(feedURL, function (error, response, body) {
-    //     var responseText = body;
-    //     var entry = responseText.substr(responseText.indexOf('<name>'),responseText.indexOf('</name>'))
-    //     console.log(entry)
-    //     console.log()
-    // });
-
 }
 
 updateRSSFeed('http://www.goodnewsnetwork.org/feed/')
