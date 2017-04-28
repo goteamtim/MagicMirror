@@ -188,7 +188,7 @@ app.get('/randomQuote', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '\/mirror.htm');
+    res.sendFile(__dirname + '\/index.html');
 });
 
 
