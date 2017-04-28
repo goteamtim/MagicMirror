@@ -1,6 +1,9 @@
 {
   "name": "magicmirror",
   "version": "1.0.0",
+  "repository": {
+    "url" : "https://github.com/goteamtim/MagicMirror.git"
+  },
   "description": "This app supplies the interface for a magic mirror.",
   "main": "index.js",
   "dependencies": {
