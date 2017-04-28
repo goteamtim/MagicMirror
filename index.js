@@ -5,7 +5,7 @@ var request = require('request');
 var FeedParser = require('feedparser');
 var jsdom = require('jsdom')
 //app.use(express.cookieParser());
-//var fs = require('fs');
+///var fs = require('fs');
 var userData = {
     ip_info: {},
     weather: {},
@@ -108,7 +108,7 @@ function getUberEstimate(latitude, longitude, uberServerToken) {
 
 
 
-function updateRSSFeed(feedURL) {
+function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
 
     var req = request(feedURL)
     var feedparser = new FeedParser([]);
@@ -116,6 +116,7 @@ function updateRSSFeed(feedURL) {
 
     req.on('error', function (error) {
         // handle any request errors 
+        return ['Error',error];
     });
 
     req.on('response', function (res) {
@@ -131,6 +132,7 @@ function updateRSSFeed(feedURL) {
 
     feedparser.on('error', function (error) {
         // always handle errors 
+        return ['Error',error];
     });
 
     feedparser.on('readable', function () {
@@ -146,7 +148,7 @@ function updateRSSFeed(feedURL) {
     return headlines;
 }
 
-var rssHeadlines = updateRSSFeed('http://www.goodnewsnetwork.org/feed/')
+var rssHeadlines = updateRSSFeed();
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, 60000 * 60);
 //getRandomQuote();
