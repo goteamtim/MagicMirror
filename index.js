@@ -35,8 +35,6 @@ function updateWeatherData(key,location) {
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
-
-    console.log(url);
     request(url, function (error, response, body) {
 
 
@@ -137,7 +135,7 @@ function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
                     "title": item.title,
                     "url": item.link
                 });
-                console.log(headlines)
+                //console.log(headlines[0])
                 resolve(headlines);
             }
         });
@@ -145,10 +143,8 @@ function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
 
 }
 
-var rssHeadlines = updateRSSFeed();
-rssHeadlines.then(function(value){
-    console.log(value);
-})
+
+
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
 //getRandomQuote();
@@ -175,6 +171,16 @@ app.get('/weather/:apiKey/:location', function (req, res) {
     res.send(userData.weather);
 });
 
+app.get('/feeds/:encodedUrl', function (req, res) {
+    console.log(decodeURIComponent(req.params.encodedUrl))
+    updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
+    //console.log(value);
+    res.send(value);
+})
+
+    
+});
+
 app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
     getUberEstimate(req.params.destLat, req.params.destLon, req.params.apiKey);
     res.send(userData.uber);
@@ -182,7 +188,7 @@ app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
-    console.log(userData.driveData.content);
+    //console.log(userData.driveData.content);
     res.send(userData.driveData.content);
 });
 
