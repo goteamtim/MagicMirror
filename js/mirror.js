@@ -103,6 +103,8 @@ function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
         if(json.hasOwnProperty('rows')){
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
+        }else{
+            document.querySelector("#currentDriveTime").innerHTML = 'Error: -1'
         }
     });
 }
@@ -154,7 +156,7 @@ function cycleFeed(feedArray){
         $('#currentAlert').fadeIn('fast');
     });
     
-    setTimeout(cycleFeed.bind(null,feedArray),4000);
+    setTimeout(cycleFeed.bind(null,feedArray),25000);
 }
 
 setTimeout(init,1500);
