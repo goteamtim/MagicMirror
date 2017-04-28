@@ -150,10 +150,13 @@ function init() {
 function cycleFeed(feedArray){
     var rand = Math.floor(Math.random()*(feedArray.length + 1));
     var e = document.getElementById('currentAlert');
-    $('#currentAlert').fadeOut('fast',function(){
+    $('#currentAlert').fadeOut('slow',function(){
+        while(e.innerHTML === feedArray[rand].title){
+            rand = Math.floor(Math.random()*(feedArray.length + 1));
+        }
         e.innerHTML = feedArray[rand].title;
         e.href = feedArray[rand].url;
-        $('#currentAlert').fadeIn('fast');
+        $('#currentAlert').fadeIn('slow');
     });
     
     setTimeout(cycleFeed.bind(null,feedArray),25000);
