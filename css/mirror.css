@@ -1,12 +1,12 @@
 body {
-        background-color: #222222;
+        background-color: #000000;
         -webkit-text-fill-color: #F9F9F9;
         font-family: 'Quicksand', sans-serif;
         font-size: 24px;
 }
 
 .navbar {
-    background-color: #222222;
+    background-color: #000000;
     background: none;
     border: none;
 }
@@ -45,4 +45,8 @@ i {
 
 #weatherIcon {
     display: inline;
+}
+
+.bottom-display {
+    text-align: center;
 }

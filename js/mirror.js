@@ -1,6 +1,6 @@
-var apiKey;
-var zip;
-var weatherData = {};
+var apiKey,
+zip,
+weatherData = {};
 //var userDataString = getCookie('userData');
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
@@ -38,7 +38,10 @@ function checkDay(currentDay) {
         return currentDay;
     }
 }
-
+/**Calls the server to get information about the current weather conditions
+ * @param {string} weatherApiKey - API key for weather underground
+ * @param {string} location - Location of the weather in lat/long string
+ */
 function loadWeatherData() {
     //Check to see if they filled out the API key yet
     if (!userData.hasOwnProperty('weatherApiKey')) {
@@ -80,7 +83,7 @@ function loadWeatherData() {
             dailySkycon.play();
         }
         var skycons = new Skycons({ "color": "white" });
-        skycons.add("clear-night", json.currently["icon"]);
+        skycons.add("clear-night", json.currently.icon);
         skycons.play();
     })
 

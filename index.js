@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var request = require('request');
+var CONSTANTS = require('./js/constants.js');
 //var firebase = require('./js/db.js')
 var FeedParser = require('feedparser');
 var jsdom = require('jsdom')
@@ -21,25 +22,20 @@ var quote = {},
 
 var randomQute = getRandomQuote();
 
-function updateWeatherData(key, location) {
-    //console.log("PassedKey: "+ key);
-    //Check if the ip information exists and if it doesnt call the function and wait
-    // if (!userData["ip_info"].hasOwnProperty("loc")) {
-    //     getUserLocation();
-    //     setTimeout(function(){updateWeatherData(userData.weatherAPIKey);}, 5000);
-    //     return;
-    // }
-    request('https://api.forecast.io/forecast/' + key + '/' + location, function (error, response, body) {
+
+function updateWeatherData(key,location) {
+    request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else { console.log("API call to weather not working.\n" + error); }
-    })
-};
+    });
+}
 
 
 
-function getCurrentDriveTime(originLatLon, destLat, destLon, driveTimeApiKey) {
-    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key=' + driveTimeApiKey
+function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
+    var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
+
     console.log(url);
     request(url, function (error, response, body) {
 
@@ -56,8 +52,8 @@ function getCurrentDriveTime(originLatLon, destLat, destLon, driveTimeApiKey) {
             }
         }
         //handle error.  
-    })
-};
+    });
+}
 
 function getRandomQuote() {
     var parsedQuote;
@@ -72,19 +68,16 @@ function getRandomQuote() {
                     quoteAuthor: ""
                 };
                 //Set function to run again so a real quote is saved
-                setTimeout(function () {
-                    getRandomQuote();
-                    console.log("\nTrying again\n");
-                }, 500);
-
+                setTimeout(getRandomQuote,CONSTANTS.HALF_A_SECOND);
             }
             randomQute = parsedQuote;
             return parsedQuote;
         } else {
             console.log("Error in quote: " + error);
+            // return null;
         }
-    })
-};
+    });
+}
 
 function getUberEstimate(latitude, longitude, uberServerToken) {
     $.ajax({
@@ -150,7 +143,7 @@ function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
 
 var rssHeadlines = updateRSSFeed();
 updateWeatherData(userData.weatherAPIKey);
-setInterval(updateWeatherData, 60000 * 60);
+setInterval(updateWeatherData, CONSTANTS.HOUR_IN_MS);
 //getRandomQuote();
 //getUserLocation();
 
@@ -196,7 +189,7 @@ app.get('/randomQuote', function (req, res) {
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '\/mirror.htm');
-})
+});
 
 
 app.listen(port, function () {
