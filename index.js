@@ -102,48 +102,55 @@ function getUberEstimate(latitude, longitude, uberServerToken) {
 
 
 function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
+    return new Promise(function(resolve, reject){
+        var req = request(feedURL);
+        var feedparser = new FeedParser([]);
+        var headlines = [];
 
-    var req = request(feedURL)
-    var feedparser = new FeedParser([]);
-    var headlines = [];
+        req.on('error', function (error) {
+            return ['Error', error];
+        });
 
-    req.on('error', function (error) {
-        // handle any request errors 
-        return ['Error',error];
-    });
+        req.on('response', function (res) {
+            var stream = this; // `this` is `req`, which is a stream 
+            if (res.statusCode !== 200) {
+                this.emit('error', new Error('Bad status code'));
+            }
+            else {
+                stream.pipe(feedparser);
+            }
+        });
 
-    req.on('response', function (res) {
-        var stream = this; // `this` is `req`, which is a stream 
+        feedparser.on('error', function (error) {
+            return ['Error', error];
+        });
 
-        if (res.statusCode !== 200) {
-            this.emit('error', new Error('Bad status code'));
-        }
-        else {
-            stream.pipe(feedparser);
-        }
-    });
+        feedparser.on('readable', function () {
+            // This is where the action is! 
+            var stream = this; // `this` is `feedparser`, which is a stream 
+            var meta = this.meta; // **NOTE** the "meta" is always available in the context of the feedparser instance 
+            var item;
 
-    feedparser.on('error', function (error) {
-        // always handle errors 
-        return ['Error',error];
-    });
+            while (item = stream.read()) {
+                //console.log(item)
+                headlines.push({
+                    "title": item.title,
+                    "url": item.link
+                });
+                console.log(headlines)
+                resolve(headlines);
+            }
+        });
+    })
 
-    feedparser.on('readable', function () {
-        // This is where the action is! 
-        var stream = this; // `this` is `feedparser`, which is a stream 
-        var meta = this.meta; // **NOTE** the "meta" is always available in the context of the feedparser instance 
-        var item;
-
-        while (item = stream.read()) {
-            headlines.push(item.title);
-        }
-    });
-    return headlines;
 }
 
 var rssHeadlines = updateRSSFeed();
+rssHeadlines.then(function(value){
+    console.log(value);
+})
 updateWeatherData(userData.weatherAPIKey);
-setInterval(updateWeatherData, CONSTANTS.HOUR_IN_MS);
+setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
 //getRandomQuote();
 //getUserLocation();
 
@@ -193,5 +200,5 @@ app.get('/', function (req, res) {
 
 
 app.listen(port, function () {
-    console.log('Navigate to localhost:' + port + ' in your browser.');
+    console.log('Magic behind the mirror running at localhost:' + port + ' in your browser.');
 });

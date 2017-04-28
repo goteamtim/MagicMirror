@@ -17,7 +17,7 @@ weekday[5] = "Friday";
 weekday[6] = "Saturday";
 
 
-var month = new Array();
+var month = new Array(12);
 month[0] = "January";
 month[1] = "February";
 month[2] = "March";
@@ -101,7 +101,9 @@ function refreshQuote() {
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
-        document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
+        if(json.hasOwnProperty('rows')){
+            document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
+        }
     });
 }
 
@@ -116,22 +118,22 @@ function startCurrTime() {
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
-    m = checkTime(m);
+    m = zeroBuffer(m);
     document.querySelector('#currentTime').innerHTML = h + ":" + m;
     //changeBackground();
     setTimeout(startCurrTime, 500);
 };
 
-function checkTime(i) {
+function zeroBuffer(i) {
     if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
     return i;
 };
 
-function getUsersIpInformation(){
-    $.getJSON('https://ipinfo.io', function(data){
-  userData["ip_info"] = data;
-  localStorage.setItem('userData',JSON.stringify(userData))
-})
+function getUsersIpInformation() {
+    $.getJSON('https://ipinfo.io', function (data) {
+        userData.ip_info = data;
+        localStorage.setItem('userData', JSON.stringify(userData))
+    });
 }
 
 function init() {
@@ -143,7 +145,63 @@ function init() {
     updateDrivingDistance(userData.ip_info.loc);
 }
 
-
+function cycleFeed(feedArray){
+    var rand = Math.floor(Math.random()*(feedArray.length + 1));
+    var e = document.getElementById('currentAlert');
+    $('#currentAlert').fadeOut('fast',function(){
+        e.innerHTML = feedArray[rand].title;
+        e.href = feedArray[rand].url;
+        $('#currentAlert').fadeIn('fast');
+    });
+    
+    setTimeout(cycleFeed.bind(null,feedArray),4000);
+}
 
 setTimeout(init,1500);
+
+
+
+
+cycleFeed(
+    [ { title: 'Whole Foods Is Mothering A Goose in its Parking Lot',
+    url: 'http://www.goodnewsnetwork.org/whole-foods-mothering-goose-parking-lot/' },
+  { title: '97-Year-old Fulfills Lifelong Dream, Becomes Firefighter For a Day',
+    url: 'http://www.goodnewsnetwork.org/97-year-old-fulfills-lifelong-dream-becomes-firefighter-day/' },
+  { title: 'New Study Shows that American Youth Violence is on the Decline',
+    url: 'http://www.goodnewsnetwork.org/new-study-says-youth-violence-decline/' },
+  { title: 'Watch Stag Climb to Elderly Woman’s Window Twice a Day For a Snack',
+    url: 'http://www.goodnewsnetwork.org/watch-stag-climb-elderly-womans-window-twice-day-snack/' },
+  { title: '50-Year-old Drug Saves Thousands of Moms After Childbirth',
+    url: 'http://www.goodnewsnetwork.org/50-year-old-drug-saves-thousands-moms-childbirth/' },
+  { title: 'Good News in History, April 27',
+    url: 'http://www.goodnewsnetwork.org/events060427/' },
+  { title: 'Swipe Right to Save a Species: Last Male White Rhino Takes to Tinder',
+    url: 'http://www.goodnewsnetwork.org/swipe-right-save-species-last-male-white-rhino-takes-tinder/' },
+  { title: 'Pope Francis is Paying the Rent of a Private Beach for the Disabled',
+    url: 'http://www.goodnewsnetwork.org/pope-francis-paying-rent-private-beach-disabled/' },
+  { title: 'Bloomberg Gives $3Mil to Job Training For Coal Communities in Decline',
+    url: 'http://www.goodnewsnetwork.org/bloomberg-gives-3-million-to-coal-worker-retraining/' },
+  { title: 'Cop Herds Lost Goats into His Police Car, Finds Owners Using Cute Pics',
+    url: 'http://www.goodnewsnetwork.org/cop-herds-lost-goats-police-car-finds-owners-using-cute-pics/' },
+  { title: 'What Do 30,000 Sick Kids Have in Common? Piles of New Art Supplies From Michaels',
+    url: 'http://www.goodnewsnetwork.org/30000-sick-kids-common-piles-new-art-supplies-michaels/' },
+  { title: 'Good News in History, April 26',
+    url: 'http://www.goodnewsnetwork.org/events060426/' },
+  { title: 'Wife of Late Army Ranger Finishes His Cancer Bucket List',
+    url: 'http://www.goodnewsnetwork.org/wife-late-army-ranger-finishes-cancer-bucket-list/' },
+  { title: 'Doritos Flies Couple to Prom After Snack-Themed Promposal',
+    url: 'http://www.goodnewsnetwork.org/doritos-flies-couple-prom-snack-themed-promposal/' },
+  { title: 'Chinese Man Trapped in India Finally Arrived Home After 50 Years',
+    url: 'http://www.goodnewsnetwork.org/chinese-man-trapped-india-finally-arrived-home-50-years/' },
+  { title: 'States to Cut College Costs by Introducing Open Source Textbooks',
+    url: 'http://www.goodnewsnetwork.org/states-cut-college-costs-introducing-open-source-textbooks/' },
+  { title: 'Plastic-eating Caterpillar Could Munch Waste, Scientists Say',
+    url: 'http://www.goodnewsnetwork.org/plastic-eating-caterpillar-munch-waste-scientists-say/' },
+  { title: 'Good News in History, April 25',
+    url: 'http://www.goodnewsnetwork.org/event060425/' },
+  { title: 'Craftsman Donates Tools (and Himself) to New Tool-Lending Library',
+    url: 'http://www.goodnewsnetwork.org/craftsman-donates-tools-new-tool-library/' },
+  { title: 'Previously-Suicidal Man Runs Marathon With Guy Who Talked Him Down From Bridge',
+    url: 'http://www.goodnewsnetwork.org/previously-suicidal-man-runs-marathon-guy-talked-bridge/' } ]
+)
 
