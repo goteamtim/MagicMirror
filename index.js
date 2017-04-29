@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express');
 var app = express();
 var request = require('request');
@@ -57,7 +58,6 @@ function getRandomQuote() {
     var parsedQuote;
     request('http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=json&lang=en', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            //Issue here
             try {
                 parsedQuote = JSON.parse(body);
             } catch (error) {
@@ -99,8 +99,9 @@ function getUberEstimate(latitude, longitude, uberServerToken) {
 
 
 
-function updateRSSFeed(feedURL = 'http://www.goodnewsnetwork.org/feed/') {
+function updateRSSFeed(userUrl) {
     return new Promise(function(resolve, reject){
+        var feedURL = typeof userUrl  !== 'undefined' ?  userUrl  : 'http://www.goodnewsnetwork.org/feed/';
         var req = request(feedURL);
         var feedparser = new FeedParser([]);
         var headlines = [];
@@ -174,7 +175,7 @@ app.get('/weather/:apiKey/:location', function (req, res) {
 app.get('/feeds/:encodedUrl', function (req, res) {
     console.log(decodeURIComponent(req.params.encodedUrl))
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
-    //console.log(value);
+    console.log("RSS Feed: " + value);
     res.send(value);
 })
 
@@ -195,7 +196,6 @@ app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res
 app.get('/randomQuote', function (req, res) {
 
     res.send(randomQute);
-    //Get the next random quote since sometimes it has to go through a few to find valid json
     getRandomQuote();
 
 });

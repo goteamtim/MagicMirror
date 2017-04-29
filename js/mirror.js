@@ -56,6 +56,7 @@ function loadWeatherData() {
                 loadWeatherData();
                 //Need to handle for having a loop here.
             }, 500);
+            return;
         }
         weatherData = json;
         localStorage.setItem('weatherData', JSON.stringify(json));
@@ -94,7 +95,7 @@ function refreshQuote() {
     $.getJSON("/randomQuote", function (json) {
         document.querySelector("#quote").innerHTML = json.quoteText;
         document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
-        if (json.quoteAuthor == "") {
+        if (json.quoteAuthor === "") {
             document.querySelector("#quoteAuthor").innerHTML = "Unknown";
         }
     })
@@ -146,7 +147,7 @@ function getUsersIpInformation() {
 }
 
 function init() {
-    getNewsFeed('http://feeds.gawker.com/lifehacker/full');
+    getNewsFeed(userData.userRssFeed);
     getUsersIpInformation();
     loadWeatherData();
     updateDate();
