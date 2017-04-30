@@ -107,7 +107,7 @@ function updateRSSFeed(userUrl) {
         var headlines = [];
 
         req.on('error', function (error) {
-            return ['Error', error];
+            reject(['Error', error])
         });
 
         req.on('response', function (res) {
@@ -121,7 +121,7 @@ function updateRSSFeed(userUrl) {
         });
 
         feedparser.on('error', function (error) {
-            return ['Error', error];
+            reject(['Error', error])
         });
 
         feedparser.on('readable', function () {
