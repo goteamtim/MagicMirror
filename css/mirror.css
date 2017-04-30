@@ -50,3 +50,7 @@ i {
 .bottom-display {
     text-align: center;
 }
+
+.top-padding {
+    padding-top: 100px;
+}
