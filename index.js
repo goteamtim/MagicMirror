@@ -156,11 +156,11 @@ app.use(express.static(__dirname));
 
 //Impliment users?
 app.get('/mirror/:userName', function (req, res) {
-    res.sendFile(__dirname + '\/mirror.htm?userID=' + req.params.userName);
+    res.sendFile(__dirname + '\/index.html?userID=' + req.params.userName);
 });
 
 app.get('/setup', function (req, res) {
-    res.sendFile(__dirname + '\/setup.htm');
+    res.sendFile(__dirname + '\/setup.html');
 });
 
 app.get('/weather/:apiKey/:location', function (req, res) {
