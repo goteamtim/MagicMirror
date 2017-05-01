@@ -64,7 +64,7 @@ function loadWeatherData() {
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
         //Alerts (if any)
-        //document.querySelector("#currentAlert").innerHTML = json.alerts[0].description;
+        document.querySelector("#currentAlert").innerHTML = json.alerts[0].description || "";
 
         //5 day forecast
         var today = new Date().getDay();
@@ -103,6 +103,7 @@ function refreshQuote() {
 
 function getNewsFeed(url) {
     $.getJSON("/feeds/"+encodeURIComponent(url), function(feedArray){
+        console.log(feedArray)
         cycleFeed(feedArray)
     });
 };
@@ -158,64 +159,17 @@ function init() {
 
 function cycleFeed(feedArray){
     var rand = Math.floor(Math.random()*(feedArray.length + 1));
-    var e = document.getElementById('currentAlert');
-    $('#currentAlert').fadeOut('slow',function(){
+    var e = document.getElementById('rssFeed');
+    $('#rssFeed').fadeOut('slow',function(){
         while(e.innerHTML === feedArray[rand].title){
             rand = Math.floor(Math.random()*(feedArray.length + 1));
         }
         e.innerHTML = feedArray[rand].title;
         e.href = feedArray[rand].url;
-        $('#currentAlert').fadeIn('slow');
+        $('#rssFeed').fadeIn('slow');
     });
     
     feedCycle = setTimeout(cycleFeed.bind(null,feedArray),25000);
 }
 
 setTimeout(init,1500);
-
-
-
-
-// cycleFeed(
-//     [ { title: 'Whole Foods Is Mothering A Goose in its Parking Lot',
-//     url: 'http://www.goodnewsnetwork.org/whole-foods-mothering-goose-parking-lot/' },
-//   { title: '97-Year-old Fulfills Lifelong Dream, Becomes Firefighter For a Day',
-//     url: 'http://www.goodnewsnetwork.org/97-year-old-fulfills-lifelong-dream-becomes-firefighter-day/' },
-//   { title: 'New Study Shows that American Youth Violence is on the Decline',
-//     url: 'http://www.goodnewsnetwork.org/new-study-says-youth-violence-decline/' },
-//   { title: 'Watch Stag Climb to Elderly Woman’s Window Twice a Day For a Snack',
-//     url: 'http://www.goodnewsnetwork.org/watch-stag-climb-elderly-womans-window-twice-day-snack/' },
-//   { title: '50-Year-old Drug Saves Thousands of Moms After Childbirth',
-//     url: 'http://www.goodnewsnetwork.org/50-year-old-drug-saves-thousands-moms-childbirth/' },
-//   { title: 'Good News in History, April 27',
-//     url: 'http://www.goodnewsnetwork.org/events060427/' },
-//   { title: 'Swipe Right to Save a Species: Last Male White Rhino Takes to Tinder',
-//     url: 'http://www.goodnewsnetwork.org/swipe-right-save-species-last-male-white-rhino-takes-tinder/' },
-//   { title: 'Pope Francis is Paying the Rent of a Private Beach for the Disabled',
-//     url: 'http://www.goodnewsnetwork.org/pope-francis-paying-rent-private-beach-disabled/' },
-//   { title: 'Bloomberg Gives $3Mil to Job Training For Coal Communities in Decline',
-//     url: 'http://www.goodnewsnetwork.org/bloomberg-gives-3-million-to-coal-worker-retraining/' },
-//   { title: 'Cop Herds Lost Goats into His Police Car, Finds Owners Using Cute Pics',
-//     url: 'http://www.goodnewsnetwork.org/cop-herds-lost-goats-police-car-finds-owners-using-cute-pics/' },
-//   { title: 'What Do 30,000 Sick Kids Have in Common? Piles of New Art Supplies From Michaels',
-//     url: 'http://www.goodnewsnetwork.org/30000-sick-kids-common-piles-new-art-supplies-michaels/' },
-//   { title: 'Good News in History, April 26',
-//     url: 'http://www.goodnewsnetwork.org/events060426/' },
-//   { title: 'Wife of Late Army Ranger Finishes His Cancer Bucket List',
-//     url: 'http://www.goodnewsnetwork.org/wife-late-army-ranger-finishes-cancer-bucket-list/' },
-//   { title: 'Doritos Flies Couple to Prom After Snack-Themed Promposal',
-//     url: 'http://www.goodnewsnetwork.org/doritos-flies-couple-prom-snack-themed-promposal/' },
-//   { title: 'Chinese Man Trapped in India Finally Arrived Home After 50 Years',
-//     url: 'http://www.goodnewsnetwork.org/chinese-man-trapped-india-finally-arrived-home-50-years/' },
-//   { title: 'States to Cut College Costs by Introducing Open Source Textbooks',
-//     url: 'http://www.goodnewsnetwork.org/states-cut-college-costs-introducing-open-source-textbooks/' },
-//   { title: 'Plastic-eating Caterpillar Could Munch Waste, Scientists Say',
-//     url: 'http://www.goodnewsnetwork.org/plastic-eating-caterpillar-munch-waste-scientists-say/' },
-//   { title: 'Good News in History, April 25',
-//     url: 'http://www.goodnewsnetwork.org/event060425/' },
-//   { title: 'Craftsman Donates Tools (and Himself) to New Tool-Lending Library',
-//     url: 'http://www.goodnewsnetwork.org/craftsman-donates-tools-new-tool-library/' },
-//   { title: 'Previously-Suicidal Man Runs Marathon With Guy Who Talked Him Down From Bridge',
-//     url: 'http://www.goodnewsnetwork.org/previously-suicidal-man-runs-marathon-guy-talked-bridge/' } ]
-// )
-

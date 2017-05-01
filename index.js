@@ -173,9 +173,9 @@ app.get('/weather/:apiKey/:location', function (req, res) {
 });
 
 app.get('/feeds/:encodedUrl', function (req, res) {
-    console.log(decodeURIComponent(req.params.encodedUrl))
+    //console.log(decodeURIComponent(req.params.encodedUrl))
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
-    console.log("RSS Feed: " + value);
+    //console.log("RSS Feed: " + value);
     res.send(value);
 })
 
