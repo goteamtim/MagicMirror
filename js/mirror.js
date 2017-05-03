@@ -93,6 +93,7 @@ function loadWeatherData() {
 
 function refreshQuote() {
     $.getJSON("/randomQuote", function (json) {
+        document.querySelector("#quote-container").style.visibility = "visible";
         document.querySelector("#quote").innerHTML = json.quoteText;
         document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
         if (json.quoteAuthor === "") {
@@ -103,7 +104,11 @@ function refreshQuote() {
 
 function getNewsFeed(url) {
     $.getJSON("/feeds/"+encodeURIComponent(url), function(feedArray){
-        console.log(feedArray)
+        //console.log(feedArray)
+        if(feedArray === []){
+            //Call again to see if you can parse.  You should keep track and only try a few times.
+            setTimeout(getNewsFeed.bind(null,url),500);
+        }
         cycleFeed(feedArray)
     });
 };
@@ -158,10 +163,16 @@ function init() {
 }
 
 function cycleFeed(feedArray){
+    if(feedArray === []){
+        //return here
+        console.log("Error in feed")
+        
+    }
     var rand = Math.floor(Math.random()*(feedArray.length + 1));
     var e = document.getElementById('rssFeed');
     $('#rssFeed').fadeOut('slow',function(){
-        while(e.innerHTML === feedArray[rand].title){
+        console.log(feedArray[rand])
+        while(e.innerHTML === feedArray[rand].title && feedArray.length > 1){
             rand = Math.floor(Math.random()*(feedArray.length + 1));
         }
         e.innerHTML = feedArray[rand].title;
@@ -170,6 +181,10 @@ function cycleFeed(feedArray){
     });
     
     feedCycle = setTimeout(cycleFeed.bind(null,feedArray),25000);
+}
+
+function callTimeout(){
+
 }
 
 setTimeout(init,1500);
