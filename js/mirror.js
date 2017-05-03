@@ -117,6 +117,7 @@ function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
         if(json.hasOwnProperty('rows')){
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
+            document.querySelector('#drive-time-container').style.visibility = "visibile";
         }else{
             document.querySelector("#currentDriveTime").innerHTML = 'Error: -1'
         }
@@ -163,16 +164,12 @@ function init() {
 }
 
 function cycleFeed(feedArray){
-    if(feedArray === []){
-        //return here
-        console.log("Error in feed")
-        
-    }
+    var copiedFeed = feedArray;
     var rand = Math.floor(Math.random()*(feedArray.length + 1));
     var e = document.getElementById('rssFeed');
     $('#rssFeed').fadeOut('slow',function(){
         console.log(feedArray[rand])
-        while(e.innerHTML === feedArray[rand].title && feedArray.length > 1){
+        while(e.innerHTML === feedArray[rand].title && feedArray.length > 1 && feedArray !== undefined){
             rand = Math.floor(Math.random()*(feedArray.length + 1));
         }
         e.innerHTML = feedArray[rand].title;
@@ -180,7 +177,7 @@ function cycleFeed(feedArray){
         $('#rssFeed').fadeIn('slow');
     });
     
-    feedCycle = setTimeout(cycleFeed.bind(null,feedArray),25000);
+    feedCycle = setTimeout(cycleFeed.bind(this,copiedFeed),2500);
 }
 
 function callTimeout(){
