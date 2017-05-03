@@ -64,7 +64,7 @@ function loadWeatherData() {
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
         //Alerts (if any)
-        document.querySelector("#currentAlert").innerHTML = json.alerts[0].description || "";
+        document.querySelector("#currentAlert").innerHTML = json.hasOwnProperty('alerts') ? json.alerts[0].description : "";
 
         //5 day forecast
         var today = new Date().getDay();
