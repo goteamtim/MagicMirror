@@ -2,7 +2,7 @@
   "name": "magicmirror",
   "version": "1.0.0",
   "repository": {
-    "url" : "https://github.com/goteamtim/MagicMirror.git"
+    "url": "https://github.com/goteamtim/MagicMirror.git"
   },
   "description": "This app supplies the interface for a magic mirror.",
   "main": "index.js",
@@ -15,10 +15,12 @@
     "safe-buffer": "latest"
   },
   "devDependencies": {
-    "gulp": "3.9.1",
     "browser-sync": "2.18.8",
+    "chai": "^4.1.2",
+    "gulp": "3.9.1",
+    "gulp-clean": "^0.3.2",
     "gulp-nodemon": "2.2.1",
-    "gulp-clean": "^0.3.2"
+    "mocha": "^4.0.1"
   },
   "engines": {
     "node": "4.4.1"
