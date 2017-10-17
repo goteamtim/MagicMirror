@@ -115,7 +115,7 @@ function getNewsFeed(url) {
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
-        if(json.hasOwnProperty('rows')){
+        if(json.hasOwnProperty('rows') && json.status !='REQUEST_DENIED'){
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
             document.querySelector('#drive-time-container').style.visibility = "visibile";
         }else{
