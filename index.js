@@ -131,10 +131,11 @@ function updateRSSFeed(userUrl) {
             var item;
 
             while (item = stream.read()) {
-                //console.log(item)
+                console.log(item)
                 headlines.push({
                     "title": item.title,
-                    "url": item.link
+                    "url": item.link,
+                    "description" : item.description
                 });
                 //console.log(headlines[0])
                 resolve(headlines);

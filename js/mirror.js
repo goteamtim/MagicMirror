@@ -171,7 +171,7 @@ function cycleFeed(feedArray) {
         while (e.innerHTML === feedArray[rand].title && feedArray.length > 1 && feedArray !== undefined) {
             rand = Math.floor(Math.random() * (feedArray.length + 1));
         }
-        e.innerHTML = feedArray[rand].title;
+        e.innerHTML = feedArray[rand].title + " -" + feedArray[rand].description;
         e.href = feedArray[rand].url;
         $('#rssFeed').fadeIn('slow');
     });
