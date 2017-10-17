@@ -90,15 +90,19 @@ function loadWeatherData() {
 
 };
 
-function refreshQuote() {
-    $.getJSON("/randomQuote", function (json) {
-        document.querySelector("#quote-container").style.visibility = "visible";
-        document.querySelector("#quote").innerHTML = json.quoteText;
-        document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
-        if (json.quoteAuthor === "") {
-            document.querySelector("#quoteAuthor").innerHTML = "Unknown";
-        }
-    })
+function refreshQuote(userInfo) {
+    if(userInfo.showQuote){
+        $.getJSON("/randomQuote", function (json) {
+            document.querySelector("#quote-container").style.visibility = "visible";
+            document.querySelector("#quote").innerHTML = json.quoteText;
+            document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
+            if (json.quoteAuthor === "") {
+                document.querySelector("#quoteAuthor").innerHTML = "Unknown";
+            }
+        })
+    }else{
+        document.querySelector("#quote-container").style.visibility = "hidden";
+    }
 };
 
 function getNewsFeed(url) {
@@ -113,6 +117,7 @@ function getNewsFeed(url) {
 };
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
+
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
         if (json.hasOwnProperty('rows') && json.status != 'REQUEST_DENIED') {
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
@@ -157,7 +162,7 @@ function init() {
     getUsersIpInformation();
     loadWeatherData();
     updateDate();
-    refreshQuote();
+    refreshQuote(userData);
     startCurrTime();
     updateDrivingDistance(userData.ip_info.loc);
 }
