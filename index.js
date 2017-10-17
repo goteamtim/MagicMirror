@@ -131,7 +131,7 @@ function updateRSSFeed(userUrl) {
             var item;
 
             while (item = stream.read()) {
-                console.log(item)
+                //console.log(item)
                 headlines.push({
                     "title": item.title,
                     "url": item.link,
