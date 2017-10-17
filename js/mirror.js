@@ -1,7 +1,6 @@
 var apiKey,
-zip,
-weatherData = {};
-//var userDataString = getCookie('userData');
+    zip,
+    weatherData = {};
 var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
 var feedCycle;
@@ -49,10 +48,10 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    $.getJSON("/weather/" + userData.weatherApiKey +'/'+userData.ip_info.loc, function (json) {
+    $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
         //Gather weather here as object first then use it later in broken out functuions?
-        if(!json.hasOwnProperty('currently')){
-            setTimeout(function() {
+        if (!json.hasOwnProperty('currently')) {
+            setTimeout(function () {
                 loadWeatherData();
                 //Need to handle for having a loop here.
             }, 500);
@@ -103,11 +102,11 @@ function refreshQuote() {
 };
 
 function getNewsFeed(url) {
-    $.getJSON("/feeds/"+encodeURIComponent(url), function(feedArray){
+    $.getJSON("/feeds/" + encodeURIComponent(url), function (feedArray) {
         //console.log(feedArray)
-        if(feedArray === []){
+        if (feedArray === []) {
             //Call again to see if you can parse.  You should keep track and only try a few times.
-            setTimeout(getNewsFeed.bind(null,url),500);
+            setTimeout(getNewsFeed.bind(null, url), 500);
         }
         cycleFeed(feedArray)
     });
@@ -115,10 +114,10 @@ function getNewsFeed(url) {
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
     $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
-        if(json.hasOwnProperty('rows') && json.status !='REQUEST_DENIED'){
+        if (json.hasOwnProperty('rows') && json.status != 'REQUEST_DENIED') {
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
             document.querySelector('#drive-time-container').style.visibility = "visibile";
-        }else{
+        } else {
             document.querySelector("#currentDriveTime").innerHTML = 'Error: -1'
         }
     });
@@ -163,25 +162,25 @@ function init() {
     updateDrivingDistance(userData.ip_info.loc);
 }
 
-function cycleFeed(feedArray){
+function cycleFeed(feedArray) {
     var copiedFeed = feedArray;
-    var rand = Math.floor(Math.random()*(feedArray.length + 1));
+    var rand = Math.floor(Math.random() * feedArray.length);
     var e = document.getElementById('rssFeed');
-    $('#rssFeed').fadeOut('slow',function(){
+    $('#rssFeed').fadeOut('slow', function () {
         console.log(feedArray[rand])
-        while(e.innerHTML === feedArray[rand].title && feedArray.length > 1 && feedArray !== undefined){
-            rand = Math.floor(Math.random()*(feedArray.length + 1));
+        while (e.innerHTML === feedArray[rand].title && feedArray.length > 1 && feedArray !== undefined) {
+            rand = Math.floor(Math.random() * (feedArray.length + 1));
         }
         e.innerHTML = feedArray[rand].title;
         e.href = feedArray[rand].url;
         $('#rssFeed').fadeIn('slow');
     });
-    
-    feedCycle = setTimeout(cycleFeed.bind(this,copiedFeed),2500);
+
+    feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 7500);
 }
 
-function callTimeout(){
+function callTimeout() {
 
 }
 
-setTimeout(init,1500);
+setTimeout(init, 1500);
