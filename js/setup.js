@@ -20,7 +20,7 @@ function getCoords(){
 function loadUserDataObject(){
     var inputFields =  document.querySelectorAll('.userDataField');
     for(var i = 0; i < inputFields.length; i++ ){
-        inputFields[i].value = userData[inputFields[i].id];
+        inputFields[i].value = (userData[inputFields[i].id]) == 'undefined' ? '' : userData[inputFields[i].id] ;
     }
 }
 
