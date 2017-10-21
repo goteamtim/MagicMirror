@@ -53,7 +53,7 @@ node_modules
 database.rules.json
 public
 skycons-master
-js/jwt.js
+js/keys.js
 
 
 #debug files
