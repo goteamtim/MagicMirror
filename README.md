@@ -17,3 +17,4 @@ Once installed, gulp should get you up and running with browsersync.  You need t
 
 
 * Calendar integration
+* Fitbit integration
