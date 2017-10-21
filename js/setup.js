@@ -59,5 +59,7 @@ $('form').submit(function(event) {
 })
 
 
-getUsersIpInformation();
-loadUserDataObject();
+document.addEventListener('DOMContentLoaded',function(){
+    getUsersIpInformation();
+    loadUserDataObject();
+})
