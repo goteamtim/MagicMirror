@@ -63,9 +63,13 @@ function loadWeatherData() {
         document.querySelector("#currDesc").innerHTML = json.hourly.summary;
 
         //Alerts (if any)
-        document.querySelector("#currentAlert").innerHTML = json.hasOwnProperty('alerts') ? json.alerts[0].description : "";
-
-        //5 day forecast
+        if(json.hasOwnProperty('alerts')){
+            for (var i = 0; i < json.alerts.length; i++) {var element = json.alerts[i];
+                document.querySelector("#currentAlert").innerHTML +=  json.alerts[i].title + " : ";
+                //description:expires:regions:severity:time:title:uri
+            }
+        
+        }
         var today = new Date().getDay();
         var counter = 1;
         for (var i = 1; i < 6; i++) {
