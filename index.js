@@ -1,13 +1,12 @@
 "use strict";
-var express = require('express');
-var app = express();
-var request = require('request');
-var CONSTANTS = require('./js/constants.js');
-//var firebase = require('./js/db.js')
-var FeedParser = require('feedparser');
-//var jsdom = require('jsdom')
-//app.use(express.cookieParser());
-///var fs = require('fs');
+var express     = require('express');
+var app         = express();
+var request     = require('request');
+var CONSTANTS   = require('./js/constants.js');
+var KEYS        = require('./js/keys.js');
+var jwt         = require('jsonwebtoken');
+var FeedParser  = require('feedparser');
+
 var userData = {
     ip_info: {},
     weather: {},
@@ -183,9 +182,11 @@ app.get('/feeds/:encodedUrl', function (req, res) {
     
 });
 
-app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
-    getUberEstimate(req.params.destLat, req.params.destLon, req.params.apiKey);
-    res.send(userData.uber);
+app.get('/fitbit', function (req, res) {
+    console.log("fitbit response\n",req.query.code);
+    //req.query.id
+    var token = jwt.sign(req.query.code,KEYS.JWT);
+    //res.send(req);
 });
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
