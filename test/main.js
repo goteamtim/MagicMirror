@@ -1,22 +1,17 @@
 var chai = require('chai'),
     expect = chai.expect,
-    request = require('request'),
+    //request = require('request'),
     server = require('../index.js'),
     CONSTANTS = require('../js/constants.js'),
-    chaiHttp = require('chai-http');
-    
-    chai.use(chaiHttp);
+    request = require('supertest');
 
-    describe('Server', function() {
-        
-        it('Random quote returns object.', function(done) {
-            chai.request(server)
-            .get('/randomQuote')
-            .end(function(res,err){
-                console.log(res)
-                expect(res).to.be.a('object');
-                done();
-            });
-            
-        });
-      });
+describe('Server', function() {
+    it('Loads the homepage.', function(done) {
+        request(server)
+        .get('/randomQuote')
+        .expect(200)
+        .end(done);
+    });
+    
+    
+});
