@@ -209,3 +209,6 @@ app.get('/', function (req, res) {
 app.listen(port, function () {
     console.log('Magic behind the mirror running at localhost:' + port + ' in your browser.');
 });
+
+// export app so we can test it
+exports = module.exports = app;
