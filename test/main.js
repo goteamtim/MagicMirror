@@ -13,5 +13,14 @@ describe('Server', function() {
         .end(done);
     });
     
+    it('Loads a random quote',function(done){
+        request(server)
+        .get('/randomQuote')
+        .expect(200)
+        .end(function(err,res){
+            expect(res.quoteText).to.equal('Loading quote...');
+            done();
+        });
+    });
     
 });
