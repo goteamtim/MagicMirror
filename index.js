@@ -3,7 +3,6 @@ var express = require('express');
 var app = express();
 var request = require('request');
 var CONSTANTS = require('./js/constants.js');
-//var firebase = require('./js/db.js')
 var FeedParser = require('feedparser');
 //var jsdom = require('jsdom')
 //app.use(express.cookieParser());

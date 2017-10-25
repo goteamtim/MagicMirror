@@ -48,8 +48,6 @@ Temporary Items
 
 bower_components
 node_modules
-#js/db.js
-.firebaserc
 database.rules.json
 public
 skycons-master
