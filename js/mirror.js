@@ -192,4 +192,9 @@ function callTimeout() {
 
 }
 
+window.onclick= function()
+{
+window.location = '/setup';
+}
+
 setTimeout(init, 1500);
