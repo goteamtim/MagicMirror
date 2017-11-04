@@ -25,9 +25,12 @@ var randomQute = getRandomQuote();
 
 function updateWeatherData(key,location) {
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
+        console.log( response.statusCode )
         if (!error && response.statusCode == 200) {
             userData.weather = body;
-        } else { console.log("API call to weather not working.\n" + error); }
+        } else{
+             console.log("API call to weather not working.\n" + error);
+        };
     });
 }
 
@@ -143,13 +146,6 @@ function updateRSSFeed(userUrl) {
     })
 
 }
-
-
-
-updateWeatherData(userData.weatherAPIKey);
-setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
-//getRandomQuote();
-//getUserLocation();
 
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
