@@ -25,7 +25,6 @@ var randomQute = getRandomQuote();
 
 function updateWeatherData(key,location) {
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
-        console.log( response.statusCode )
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else{
@@ -44,7 +43,6 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
-                console.log(typeof ("distType: " + body));
                 userData.driveData.content = JSON.parse(body);
                 return JSON.parse(body);
             } else {
@@ -133,13 +131,11 @@ function updateRSSFeed(userUrl) {
             var item;
 
             while (item = stream.read()) {
-                //console.log(item)
                 headlines.push({
                     "title": item.title,
                     "url": item.link,
                     "description" : item.description
                 });
-                //console.log(headlines[0])
                 resolve(headlines);
             }
         });
@@ -164,14 +160,11 @@ app.get('/weather/:apiKey/:location', function (req, res) {
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
-
     res.send(userData.weather);
 });
 
 app.get('/feeds/:encodedUrl', function (req, res) {
-    //console.log(decodeURIComponent(req.params.encodedUrl))
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
-    //console.log("RSS Feed: " + value);
     res.send(value);
 })
 
@@ -185,7 +178,6 @@ app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
-    //console.log(userData.driveData.content);
     res.send(userData.driveData.content);
 });
 
