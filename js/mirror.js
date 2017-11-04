@@ -185,7 +185,7 @@ function cycleFeed(feedArray) {
         $('#rssFeed').fadeIn('slow');
     });
 
-    feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 7500);
+    feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
 }
 
 function callTimeout() {
