@@ -48,49 +48,52 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
-        //Gather weather here as object first then use it later in broken out functuions?
-        if (!json.hasOwnProperty('currently')) {
-            setTimeout(function () {
-                loadWeatherData();
-                //Need to handle for having a loop here.
-            }, 500);
-            return;
-        }
-        weatherData = json;
-        localStorage.setItem('weatherData', JSON.stringify(json));
-        document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature) + "&deg;";
-        document.querySelector("#currDesc").innerHTML = json.hourly.summary;
-
-        //Alerts (if any)
-        if(json.hasOwnProperty('alerts')){
-            for (var i = 0; i < json.alerts.length; i++) {var element = json.alerts[i];
-                document.querySelector("#currentAlert").innerHTML +=  json.alerts[i].title + " : ";
-                //description:expires:regions:severity:time:title:uri
+    if(userData.showWeather)
+    {
+        $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
+            //Gather weather here as object first then use it later in broken out functuions?
+            if (!json.hasOwnProperty('currently')) {
+                setTimeout(function () {
+                    loadWeatherData();
+                    //Need to handle for having a loop here.
+                }, 500);
+                return;
             }
-        
-        }
-        var today = new Date().getDay();
-        var counter = 1;
-        for (var i = 1; i < 6; i++) {
-            var dailySkycon = new Skycons({ "color": "white" });
-            var icon = json.daily.data[i].icon;
-            var tempMax = Math.round(json.daily.data[i].temperatureMax);
-            var tempMin = Math.round(json.daily.data[i].temperatureMin);
-            var day = weekday[checkDay(today + counter)];
-            var ul = document.querySelector("#weatherForecast");
-            var li = document.createElement("li");
-            li.innerHTML = day.substr(0, 3) + " " + tempMin + "&deg;-" + tempMax + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
-            li.setAttribute("class", "weatherForecastDay");
-            ul.appendChild(li);
-            counter++;
-            dailySkycon.add(day, icon);
-            dailySkycon.play();
-        }
-        var skycons = new Skycons({ "color": "white" });
-        skycons.add("clear-night", json.currently.icon);
-        skycons.play();
-    })
+            weatherData = json;
+            localStorage.setItem('weatherData', JSON.stringify(json));
+            document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature) + "&deg;";
+            document.querySelector("#currDesc").innerHTML = json.hourly.summary;
+    
+            //Alerts (if any)
+            if(json.hasOwnProperty('alerts')){
+                for (var i = 0; i < json.alerts.length; i++) {var element = json.alerts[i];
+                    document.querySelector("#currentAlert").innerHTML +=  json.alerts[i].title + " : ";
+                    //description:expires:regions:severity:time:title:uri
+                }
+            
+            }
+            var today = new Date().getDay();
+            var counter = 1;
+            for (var i = 1; i < 6; i++) {
+                var dailySkycon = new Skycons({ "color": "white" });
+                var icon = json.daily.data[i].icon;
+                var tempMax = Math.round(json.daily.data[i].temperatureMax);
+                var tempMin = Math.round(json.daily.data[i].temperatureMin);
+                var day = weekday[checkDay(today + counter)];
+                var ul = document.querySelector("#weatherForecast");
+                var li = document.createElement("li");
+                li.innerHTML = day.substr(0, 3) + " " + tempMin + "&deg;-" + tempMax + "&deg; <canvas id=\"" + day + "\" width=\"32\" height=\"32\" style=\"float: right;\"></canvas>";
+                li.setAttribute("class", "weatherForecastDay");
+                ul.appendChild(li);
+                counter++;
+                dailySkycon.add(day, icon);
+                dailySkycon.play();
+            }
+            var skycons = new Skycons({ "color": "white" });
+            skycons.add("clear-night", json.currently.icon);
+            skycons.play();
+        })
+    }
 
 };
 
