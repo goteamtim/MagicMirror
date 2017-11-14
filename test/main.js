@@ -8,7 +8,7 @@ var chai = require('chai'),
 describe('Server', function() {
     it('Loads the homepage.', function(done) {
         request(server)
-        .get('/randomQuote')
+        .get('/')
         .expect(200)
         .end(done);
     });
