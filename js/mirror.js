@@ -191,10 +191,6 @@ function cycleFeed(feedArray) {
     feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
 }
 
-function callTimeout() {
-
-}
-
 window.onclick= function()
 {
 window.location = '/setup';
