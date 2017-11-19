@@ -158,7 +158,7 @@ function zeroBuffer(i) {
 };
 
 function getUsersIpInformation() {
-    $.getJSON('https://ipinfo.io', function (data) {
+    $.get('https://ipinfo.io/json', function (data) {
         userData.ip_info = data;
         localStorage.setItem('userData', JSON.stringify(userData))
     });
