@@ -77,28 +77,6 @@ function getRandomQuote() {
     });
 }
 
-function getUberEstimate(latitude, longitude, uberServerToken) {
-    $.ajax({
-        url: "https://api.uber.com/v1/estimates/price",
-        headers: {
-            Authorization: "Token " + uberServerToken
-        },
-        data: {
-            start_latitude: latitude,
-            start_longitude: longitude,
-            //Dont think I need destinations currently.  Only get wait time and possibly surge pricing?
-            //end_latitude: destLatitude,
-            //end_longitude: destLongitude
-        },
-        success: function (result) {
-            console.log(result);
-        }
-    });
-}
-
-
-
-
 function updateRSSFeed(userUrl) {
     return new Promise(function(resolve, reject){
         var feedURL = typeof userUrl  !== 'undefined' ?  userUrl  : 'http://www.goodnewsnetwork.org/feed/';
