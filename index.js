@@ -4,6 +4,7 @@ var app = express();
 var request = require('request');
 var CONSTANTS = require('./js/constants.js');
 var FeedParser = require('feedparser');
+const { exec } = require('child_process');
 //var jsdom = require('jsdom')
 //app.use(express.cookieParser());
 ///var fs = require('fs');
@@ -33,7 +34,24 @@ function updateWeatherData(key,location) {
     });
 }
 
+function updateServer( version ){
+    //Idea would be to pass in the version or track that you want.
+    exec("git pull", (err, stdout, stderr) => {
+        if (err) {
+          // node couldn't execute the command
+          return;
+        }
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+      });
+}
 
+// function checkVersion( url ){
+//     request(url,function( err, response, body ){
+
+//     });
+// }
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
@@ -164,6 +182,11 @@ app.get('/randomQuote', function (req, res) {
     res.send(randomQute);
     getRandomQuote();
 
+});
+
+app.get('/updateMirror', function( req, res ){
+    updateServer();
+    res.send({status: "updating"})
 });
 
 app.get('/', function (req, res) {

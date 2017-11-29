@@ -6,6 +6,13 @@ function getUsersIpInformation(){
 })
 }
 
+function updateMirrorSoftware(){
+    $.get("/updateMirror",function(data){
+        console.log(data.status)
+        console.log("Updating...")
+    });
+}
+
 function getCoords(){
     if(!userData.hasOwnProperty("location")){
         getUsersIpInformation();
@@ -63,6 +70,9 @@ $('form').submit(function(event) {
 	
 })
 
+$('#update-mirror').click(function(){
+    updateMirrorSoftware();
+})
 
 document.addEventListener('DOMContentLoaded',function(){
     getUsersIpInformation();
