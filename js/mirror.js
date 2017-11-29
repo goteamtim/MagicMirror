@@ -48,7 +48,7 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    if(userData.showWeather)
+    if(userData.showWeather && userData.ip_info != undefined)
     {
         $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
             //Gather weather here as object first then use it later in broken out functuions?
@@ -113,14 +113,16 @@ function refreshQuote(userInfo) {
 };
 
 function getNewsFeed(url) {
-    $.getJSON("/feeds/" + encodeURIComponent(url), function (feedArray) {
-        //console.log(feedArray)
-        if (feedArray === []) {
-            //Call again to see if you can parse.  You should keep track and only try a few times.
-            setTimeout(getNewsFeed.bind(null, url), 500);
-        }
-        cycleFeed(feedArray)
-    });
+    if(url != "undefined"){
+        $.getJSON("/feeds/" + encodeURIComponent(url), function (feedArray) {
+            //console.log(feedArray)
+            if (feedArray === []) {
+                //Call again to see if you can parse.  You should keep track and only try a few times.
+                setTimeout(getNewsFeed.bind(null, url), 500);
+            }
+            cycleFeed(feedArray)
+        });
+    }
 };
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {

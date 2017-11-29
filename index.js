@@ -153,6 +153,9 @@ app.get('/weather/:apiKey/:location', function (req, res) {
 app.get('/feeds/:encodedUrl', function (req, res) {
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
     res.send(value);
+}).catch(function(reason){
+    console.log("Error getting feed...")
+    console.log(reason)
 })
 
     
