@@ -155,7 +155,10 @@ function startCurrTime() {
 };
 
 function zeroBuffer(i) {
-    if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+    if (i < 10) 
+    { 
+        i = "0" + i; 
+    }  // add zero in front of numbers < 10
     return i;
 };
 
@@ -199,3 +202,7 @@ window.location = '/setup';
 }
 
 setTimeout(init, 1500);
+
+module.exports = {
+    zeroBuffer: zeroBuffer
+}
