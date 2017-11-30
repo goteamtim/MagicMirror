@@ -3,7 +3,8 @@ var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 var nodemon = require('gulp-nodemon');
 var clean = require('gulp-clean');
-
+var uglify = require('gulp-uglify');
+var pump = require('pump');
 
 
 // Static server
@@ -53,3 +54,17 @@ gulp.task('clean',function(){
   .pipe(clean());
 });
 
+//Build Prod
+gulp.task( 'build', ['compress'], function() {
+  console.log("Prod build complete.")
+});
+
+gulp.task('compress', function () {
+  pump([
+        gulp.src('js/*.js'),
+        uglify(),
+        gulp.dest('dist/js')
+    ],
+    console.log("Compress complete...")
+  );
+});
