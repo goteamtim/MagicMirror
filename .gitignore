@@ -46,6 +46,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+dist
 bower_components
 node_modules
 database.rules.json
