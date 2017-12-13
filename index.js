@@ -161,11 +161,6 @@ app.get('/feeds/:encodedUrl', function (req, res) {
     
 });
 
-app.get('/uber/:destLat/:destLon/:apiKey', function (req, res) {
-    getUberEstimate(req.params.destLat, req.params.destLon, req.params.apiKey);
-    res.send(userData.uber);
-});
-
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
     res.send(userData.driveData.content);
