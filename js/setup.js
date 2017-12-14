@@ -25,13 +25,15 @@ function getCoords(){
 }
 
 function loadUserDataObject(){
-    var inputFields =  document.querySelectorAll('.userDataField');
-    for(var i = 0; i < inputFields.length; i++ ){
-        if(inputFields[i]['type'] == "checkbox"){
-            inputFields[i].checked = userData[inputFields[i].id];
-        }else
-        {
-            inputFields[i].value = (userData[inputFields[i].id]) == 'undefined' ? '' : userData[inputFields[i].id] ;
+    if(userData){
+        var inputFields =  document.querySelectorAll('.userDataField');
+        for(var i = 0; i < inputFields.length; i++ ){
+            if(inputFields[i]['type'] == "checkbox"){
+                inputFields[i].checked = userData[inputFields[i].id];
+            }else
+            {
+                inputFields[i].value = (userData[inputFields[i].id]) == undefined ? '' : userData[inputFields[i].id] ;
+            }
         }
     }
 }
