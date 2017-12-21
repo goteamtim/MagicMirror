@@ -41,12 +41,14 @@ function saveSettings() {
     var inputFields = document.querySelectorAll('.userDataField');
     for (var i = 0; i < inputFields.length; i++) {
         var element = inputFields[i];
-        console.log(element);
+        console.log(element.type);
 
-        if (element.value !== "") {
+        if (element.value !== "" || element.type === "radio") {
             if (element.type === "checkbox") {
                 userData[element.id] = element.checked;
-            } else {
+            } else if(element.type === "radio"){
+                userData[element.id] = document.querySelector('input[name = "' + element.name + '"]:checked').value;
+            }else{
                 userData[element.id] = element.value;
             }
         }
