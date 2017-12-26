@@ -46,15 +46,13 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+dist
 bower_components
 node_modules
-#js/db.js
-.firebaserc
 database.rules.json
 public
 skycons-master
 js/keys.js
-
 
 #debug files
 npm-debug.log

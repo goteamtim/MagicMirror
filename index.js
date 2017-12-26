@@ -28,11 +28,21 @@ function updateWeatherData(key,location) {
     request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData.weather = body;
-        } else { console.log("API call to weather not working.\n" + error); }
+        } else{
+             console.log("API call to weather not working.\n" + error);
+        };
     });
 }
 
-
+function updateServer(){
+    exec("git pull", (err, stdout, stderr) => {
+        if (err) {
+          console.log('stderr: ' + stderr);
+          return;
+        }
+        console.log('stdout: ' + stdout);
+      });
+}
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
@@ -42,7 +52,6 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
         if (!error && response.statusCode == 200) {
 
             if (body.status != "REQUEST_DENIED") {
-                console.log(typeof ("distType: " + body));
                 userData.driveData.content = JSON.parse(body);
                 return JSON.parse(body);
             } else {
@@ -77,28 +86,6 @@ function getRandomQuote() {
     });
 }
 
-function getUberEstimate(latitude, longitude, uberServerToken) {
-    $.ajax({
-        url: "https://api.uber.com/v1/estimates/price",
-        headers: {
-            Authorization: "Token " + uberServerToken
-        },
-        data: {
-            start_latitude: latitude,
-            start_longitude: longitude,
-            //Dont think I need destinations currently.  Only get wait time and possibly surge pricing?
-            //end_latitude: destLatitude,
-            //end_longitude: destLongitude
-        },
-        success: function (result) {
-            console.log(result);
-        }
-    });
-}
-
-
-
-
 function updateRSSFeed(userUrl) {
     return new Promise(function(resolve, reject){
         var feedURL = typeof userUrl  !== 'undefined' ?  userUrl  : 'http://www.goodnewsnetwork.org/feed/';
@@ -131,13 +118,11 @@ function updateRSSFeed(userUrl) {
             var item;
 
             while (item = stream.read()) {
-                //console.log(item)
                 headlines.push({
                     "title": item.title,
                     "url": item.link,
                     "description" : item.description
                 });
-                //console.log(headlines[0])
                 resolve(headlines);
             }
         });
@@ -171,15 +156,15 @@ app.get('/weather/:apiKey/:location', function (req, res) {
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
-
     res.send(userData.weather);
 });
 
 app.get('/feeds/:encodedUrl', function (req, res) {
-    //console.log(decodeURIComponent(req.params.encodedUrl))
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
-    //console.log("RSS Feed: " + value);
     res.send(value);
+}).catch(function(reason){
+    console.log("Error getting feed...")
+    console.log(reason)
 })
 
     
@@ -202,7 +187,6 @@ app.get('/fitbit', function (req, res) {
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
-    //console.log(userData.driveData.content);
     res.send(userData.driveData.content);
 });
 
@@ -213,6 +197,11 @@ app.get('/randomQuote', function (req, res) {
 
 });
 
+app.get('/updateMirror', function( req, res ){
+    updateServer();
+    res.send({status: "updating"})
+});
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '\/index.html');
 });
@@ -221,3 +210,6 @@ app.get('/', function (req, res) {
 app.listen(port, function () {
     console.log('Magic behind the mirror running at localhost:' + port + ' in your browser.');
 });
+
+// export app so we can test it
+exports = module.exports = app;

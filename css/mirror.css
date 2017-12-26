@@ -9,6 +9,8 @@ body {
     background-color: #000000;
     background: none;
     border: none;
+    margin-bottom: 20px;
+    height: 15%;
 }
 
 i {
@@ -52,5 +54,5 @@ i {
 }
 
 .top-padding {
-    padding-top: 100px;
+    padding-top: 20px;
 }
