@@ -6,6 +6,7 @@ var CONSTANTS   = require('./js/constants.js');
 var KEYS        = require('./js/keys.js');
 var jwt         = require('jsonwebtoken');
 var FeedParser  = require('feedparser');
+var cookieParser = require('cookie-parser')
 
 var userData = {
     ip_info: {},
@@ -151,6 +152,8 @@ setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
 //getRandomQuote();
 //getUserLocation();
 
+app.use(cookieParser())
+
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
 
@@ -183,10 +186,18 @@ app.get('/feeds/:encodedUrl', function (req, res) {
 });
 
 app.get('/fitbit', function (req, res) {
-    console.log("fitbit response\n",req.query.code);
-    //req.query.id
-    var token = jwt.sign(req.query.code,KEYS.JWT);
-    //res.send(req);
+    if (req.query.access_token) {
+        console.log("fitbit response\n", req.query.access_token);
+        //req.query.id
+        var token = jwt.sign(req.query.access_token, KEYS.JWT);
+        var userID = jwt.sign(req.query.user_id,KEYS.JWT);
+        res.cookie("token",token)
+        res.cookie('user',userID)
+        res.redirect('/setup')
+    } else {
+        res.sendFile(__dirname + '\/fitbit.html');
+    }
+
 });
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
