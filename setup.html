@@ -59,6 +59,17 @@
                     </fieldset>
                     
                     <hr>
+                    <div class="checkbox" id="fitbit">
+                        <label>
+                            <input type="checkbox" value="true" class="userDataField" id="showFitbit">Show Current Step Count
+                        </label>
+                    </div>
+                    <fieldset class="form-group" id="fitbitField">
+                        <label for="fitbitLabelInput">FitBit</label>
+                        <a href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22CJFY&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Ffitbit&scope=activity%20heartrate%20profile%20sleep&expires_in=604800" target="_blank" class="btn btn-primary">Setup Fitbit Access</a>
+                        <input type="text" class="form-control userDataField" id="fitbitApiKey" placeholder="Fitbit API Key" hidden>
+                    </fieldset>
+                    <hr>
                     <div class="checkbox" id="randomQuotes">
                         <label>
                             <input type="checkbox" value="true" class="userDataField" id="showQuote">Would you like to see a random quote daily?
