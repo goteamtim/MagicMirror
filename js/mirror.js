@@ -199,7 +199,6 @@ function cycleFeed(feedArray) {
 
 function getFitBitData(){
     $.getJSON('/fb',function(data){
-        console.log("Fitbit response: ", data)
         document.querySelector('#currentStepCount').innerHTML = data.summary.steps + "/" + data.goals.steps;
     })
 }

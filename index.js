@@ -174,7 +174,7 @@ app.get('/feeds/:encodedUrl', function (req, res) {
 
 app.get('/fitbit', function (req, res) {
     if (req.query.access_token) {
-        console.log("fitbit response\n", req.query.access_token);
+        //console.log("fitbit response\n", req.query.access_token);
         //req.query.id
         var token = jwt.sign(req.query.access_token, KEYS.JWT);
         var userID = jwt.sign(req.query.user_id,KEYS.JWT);
@@ -188,17 +188,16 @@ app.get('/fitbit', function (req, res) {
 });
 
 app.get('/fb', function( req, res ){
-    console.log("Getting fitbit data")
+    //console.log("Getting fitbit data")
     var token = jwt.verify(req.cookies.token, KEYS.JWT)
     var user = jwt.verify(req.cookies.user, KEYS.JWT)
     var date = moment().format("YYYY[-]MM[-]DD");
-    console.log("token: ", token)
-    console.log("user: ", req.cookies.user)
+    //console.log("token: ", token)
+    //console.log("user: ", req.cookies.user)
     request('https://api.fitbit.com/1/user/' + user + '/activities/date/' + date + '.json',{headers:{'Authorization':'Bearer ' + token}},function(err,response,body){
         if(!body.success){
             console.log("--- FitBit Error ---\n",body)
         }
-        console.log("fb request complete, body below.")
         res.send(body)
     })
 })
