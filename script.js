@@ -1,5 +1,5 @@
-var urlHash = window.location.hash;
+var u = window.location.hash;
 document.querySelector('#submit').addEventListener("click", function(){
-var url = document.querySelector('#input').value;
-  window.location = url + urlHash.replace('#','?')
+var q = document.querySelector('#input').value;
+  window.location = q + u.replace('#','?')
 })
