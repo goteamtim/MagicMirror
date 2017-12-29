@@ -1,37 +1,38 @@
 var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
-function getUsersIpInformation(){
-    $.getJSON('https://ipinfo.io', function(data){
-  userData.location = data;
-})
+function getUsersIpInformation() {
+    $.getJSON('https://ipinfo.io', function (data) {
+        userData.location = data;
+    })
 }
 
-function updateMirrorSoftware(){
-    $.get("/updateMirror",function(data){
+function updateMirrorSoftware() {
+    $.get("/updateMirror", function (data) {
         console.log(data.status)
         console.log("Updating...")
     });
 }
 
-function getCoords(){
-    if(!userData.hasOwnProperty("location")){
+function getCoords() {
+    if (!userData.hasOwnProperty( "location" ) ) {
         getUsersIpInformation();
     }
     var location = userData.location.loc;
-    var lat = location.substr(0,location.indexOf(","));
-    var lon = location.substr(location.indexOf(",")+1,location.length);
-    $('#latitude').val(+lat);
-    $('#longitude').val(+lon);
+    var lat = location.substr( 0, location.indexOf( "," ) );
+    var lon = location.substr( location.indexOf( "," ) + 1, location.length );
+    $('#latitude').val( +lat );
+    $('#longitude').val( +lon );
 }
 
-function loadUserDataObject(){
-    var inputFields =  document.querySelectorAll('.userDataField');
-    for(var i = 0; i < inputFields.length; i++ ){
-        if(inputFields[i]['type'] == "checkbox"){
-            inputFields[i].checked = userData[inputFields[i].id];
-        }else
-        {
-            inputFields[i].value = (userData[inputFields[i].id]) == 'undefined' ? '' : userData[inputFields[i].id] ;
+function loadUserDataObject() {
+    if ( userData ) {
+        var inputFields = document.querySelectorAll( '.userDataField' );
+        for ( var i = 0; i < inputFields.length; i++ ) {
+            if ( inputFields[ i ][ 'type' ] == "checkbox" ) {
+                inputFields[ i ].checked = userData[ inputFields[ i ].id ];
+            } else {
+                inputFields[ i ].value = ( userData[ inputFields[ i ].id ] ) == undefined ? '' : userData[ inputFields[ i ].id ];
+            }
         }
     }
 }
@@ -40,12 +41,14 @@ function saveSettings() {
     var inputFields = document.querySelectorAll('.userDataField');
     for (var i = 0; i < inputFields.length; i++) {
         var element = inputFields[i];
-        console.log(element);
+        console.log(element.type);
 
-        if (element.value !== "") {
+        if (element.value !== "" || element.type === "radio") {
             if (element.type === "checkbox") {
                 userData[element.id] = element.checked;
-            } else {
+            } else if(element.type === "radio"){
+                userData[element.id] = document.querySelector('input[name = "' + element.name + '"]:checked').value;
+            }else{
                 userData[element.id] = element.value;
             }
         }
@@ -53,28 +56,28 @@ function saveSettings() {
     localStorage.setItem('userData', JSON.stringify(userData));
 }
 
-$('.checkbox').change(function(){
-    
+$('.checkbox').change(function () {
+
     if ($('#' + this.id).prop('checked')) {
-        $('#' + this.id + 'Field').attr('disabled',true);
+        $('#' + this.id + 'Field').attr('disabled', true);
         console.log(this.id);
-    }else{
-        $('#' + this.id + 'Field').attr('disabled',false);
+    } else {
+        $('#' + this.id + 'Field').attr('disabled', false);
     }
 });
 
 
-$('form').submit(function(event) {
-	event.preventDefault();
-	saveSettings();
-	
+$('form').submit(function (event) {
+    event.preventDefault();
+    saveSettings();
+
 })
 
-$('#update-mirror').click(function(){
+$('#update-mirror').click(function () {
     updateMirrorSoftware();
 })
 
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded', function () {
     getUsersIpInformation();
     loadUserDataObject();
 })
