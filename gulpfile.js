@@ -8,6 +8,7 @@ var pump = require('pump');
 
 // Default task - stage build
 gulp.task('default', ['browsersync-dev', 'watch-dev']);
+//Add a task that checks that everything is installed
 
 gulp.task('watch-dev', function () {
 
