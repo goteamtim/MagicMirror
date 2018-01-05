@@ -1,13 +1,15 @@
 "use strict";
-var express = require('express');
-var app = express();
-var request = require('request');
-var CONSTANTS = require('./js/constants.js');
-var FeedParser = require('feedparser');
+var express     = require('express');
+var app         = express();
+var request     = require('request');
+var CONSTANTS   = require('./js/constants.js');
+var KEYS        = require('./js/keys.js');
+var jwt         = require('jsonwebtoken');
+var FeedParser  = require('feedparser');
+var cookieParser = require('cookie-parser')
+var moment = require('moment')
 const { exec } = require('child_process');
-//var jsdom = require('jsdom')
-//app.use(express.cookieParser());
-///var fs = require('fs');
+
 var userData = {
     ip_info: {},
     weather: {},
@@ -130,6 +132,15 @@ function updateRSSFeed(userUrl) {
 
 }
 
+
+
+updateWeatherData(userData.weatherAPIKey);
+setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
+//getRandomQuote();
+//getUserLocation();
+
+app.use(cookieParser())
+
 // we are specifying the html directory as another public directory
 app.use(express.static(__dirname));
 
@@ -160,6 +171,36 @@ app.get('/feeds/:encodedUrl', function (req, res) {
 
     
 });
+
+app.get('/fitbit', function (req, res) {
+    if (req.query.access_token) {
+        //console.log("fitbit response\n", req.query.access_token);
+        //req.query.id
+        var token = jwt.sign(req.query.access_token, KEYS.JWT);
+        var userID = jwt.sign(req.query.user_id,KEYS.JWT);
+        res.cookie("token",token)
+        res.cookie('user',userID)
+        res.redirect('/setup')
+    } else {
+        res.sendFile(__dirname + '\/fitbit.html');
+    }
+
+});
+
+app.get('/fb', function( req, res ){
+    //console.log("Getting fitbit data")
+    var token = jwt.verify(req.cookies.token, KEYS.JWT)
+    var user = jwt.verify(req.cookies.user, KEYS.JWT)
+    var date = moment().format("YYYY[-]MM[-]DD");
+    //console.log("token: ", token)
+    //console.log("user: ", req.cookies.user)
+    request('https://api.fitbit.com/1/user/' + user + '/activities/date/' + date + '.json',{headers:{'Authorization':'Bearer ' + token}},function(err,response,body){
+        if(!body.success){
+            console.log("--- FitBit Error ---\n",body)
+        }
+        res.send(body)
+    })
+})
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);

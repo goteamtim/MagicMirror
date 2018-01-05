@@ -177,6 +177,7 @@ function init() {
     refreshQuote(userData);
     startCurrTime();
     updateDrivingDistance(userData.ip_info.loc);
+    getFitBitData();
 }
 
 function cycleFeed(feedArray) {
@@ -196,8 +197,10 @@ function cycleFeed(feedArray) {
     feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
 }
 
-function standardMilitaryTimeSwap( time ){
-
+function getFitBitData(){
+    $.getJSON('/fb',function(data){
+        document.querySelector('#currentStepCount').innerHTML = data.summary.steps + "/" + data.goals.steps;
+    })
 }
 
 window.onclick= function()
@@ -207,6 +210,6 @@ window.location = '/setup';
 
 setTimeout(init, 1500);
 
-module.exports = {
-    zeroBuffer: zeroBuffer
-}
+// module.exports = {
+//     zeroBuffer: zeroBuffer
+// }
