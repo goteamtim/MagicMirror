@@ -30,7 +30,13 @@ function loadUserDataObject() {
         for ( var i = 0; i < inputFields.length; i++ ) {
             if ( inputFields[ i ][ 'type' ] == "checkbox" ) {
                 inputFields[ i ].checked = userData[ inputFields[ i ].id ];
-            } else {
+            } else if( inputFields[ i ][ 'type' ] == 'radio')
+            {
+                if(userData[ inputFields[ i ].id ] == inputFields[ i ].dataset.value){
+                    //Set military radio
+                    inputFields[ i ].checked = userData[ inputFields[ i ].id ]
+                }
+            }else{
                 inputFields[ i ].value = ( userData[ inputFields[ i ].id ] ) == undefined ? '' : userData[ inputFields[ i ].id ];
             }
         }
@@ -41,17 +47,17 @@ function saveSettings() {
     var inputFields = document.querySelectorAll('.userDataField');
     for (var i = 0; i < inputFields.length; i++) {
         var element = inputFields[i];
-        console.log(element.type);
-
-        if (element.value !== "" || element.type === "radio") {
+         if (element.value !== "") { console.log("Element empty: " + element.id ) }
             if (element.type === "checkbox") {
                 userData[element.id] = element.checked;
             } else if(element.type === "radio"){
-                userData[element.id] = document.querySelector('input[name = "' + element.name + '"]:checked').value;
+                if(element.checked){
+                    userData[element.id] = element.dataset.value;
+                }
             }else{
                 userData[element.id] = element.value;
             }
-        }
+        //}
     }
     localStorage.setItem('userData', JSON.stringify(userData));
 }

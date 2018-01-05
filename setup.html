@@ -35,10 +35,10 @@
                         <!-- F or C here -->
                         <br>
                         <label class="radio-inline">
-                            <input type="radio" name="tempFormatOptions" id="fahrenheit" value="fahrenheit" checked class="userDataField"> Fahrenheit
+                            <input type="radio" name="tempFormatOptions" id="tempFormat" value="fahrenheit" checked class="userDataField"> Fahrenheit
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="tempFormatOptions" id="celsius" value="celsius" class="userDataField"> Celsius
+                            <input type="radio" name="tempFormatOptions" id="tempFormat" value="celsius" class="userDataField"> Celsius
                         </label>
                     </fieldset>
                     <hr>
@@ -73,6 +73,16 @@
                     <div class="checkbox" id="randomQuotes">
                         <label>
                             <input type="checkbox" value="true" class="userDataField" id="showQuote">Would you like to see a random quote daily?
+                        </label>
+                    </div>
+                    <hr>
+                    <label for="rssFeedInput">Time</label>
+                    <div class="checkbox" id="timePreference">
+                        <label class="radio-inline">
+                            <input type="radio" name="timeFormatOptions" id="timeFormat" data-value="Standard" checked class="userDataField"> Standard
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="timeFormatOptions" id="timeFormat" data-value="Military" class="userDataField"> Military
                         </label>
                     </div>
                     <hr>
