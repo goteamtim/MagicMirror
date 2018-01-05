@@ -145,12 +145,12 @@ function updateDate() {
 }
 
 function startCurrTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    m = zeroBuffer(m);
-    document.querySelector('#currentTime').innerHTML = h + ":" + m;
-    //changeBackground();
+    var today = new moment();
+    if(userData.timeFormat == "Military"){
+        document.querySelector('#currentTime').innerHTML = new moment().format('HH' + ":" + "mm");
+    }else{
+        document.querySelector('#currentTime').innerHTML = new moment().format('h' + ":" + "m a");
+    }
     setTimeout(startCurrTime, 500);
 };
 
@@ -194,6 +194,10 @@ function cycleFeed(feedArray) {
     });
 
     feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
+}
+
+function standardMilitaryTimeSwap( time ){
+
 }
 
 window.onclick= function()

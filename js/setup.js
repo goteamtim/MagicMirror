@@ -30,7 +30,13 @@ function loadUserDataObject() {
         for ( var i = 0; i < inputFields.length; i++ ) {
             if ( inputFields[ i ][ 'type' ] == "checkbox" ) {
                 inputFields[ i ].checked = userData[ inputFields[ i ].id ];
-            } else {
+            } else if( inputFields[ i ][ 'type' ] == 'radio')
+            {
+                if(userData[ inputFields[ i ].id ] == inputFields[ i ].dataset.value){
+                    //Set military radio
+                    inputFields[ i ].checked = userData[ inputFields[ i ].id ]
+                }
+            }else{
                 inputFields[ i ].value = ( userData[ inputFields[ i ].id ] ) == undefined ? '' : userData[ inputFields[ i ].id ];
             }
         }
@@ -43,13 +49,18 @@ function saveSettings() {
         var element = inputFields[i];
         console.log(element);
 
-        if (element.value !== "") {
+         if (element.value !== "") { console.log("Element empty: " + element.id ) }
             if (element.type === "checkbox") {
                 userData[element.id] = element.checked;
-            } else {
+            } else if(element.type === "radio"){
+                console.log('Saving element: ' + element.checked)
+                if(element.checked){
+                    userData[element.id] = element.dataset.value;
+                }
+            }else{
                 userData[element.id] = element.value;
             }
-        }
+        //}
     }
     localStorage.setItem('userData', JSON.stringify(userData));
 }
