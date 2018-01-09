@@ -149,7 +149,7 @@ function startCurrTime() {
     if(userData.timeFormat == "Military"){
         document.querySelector('#currentTime').innerHTML = new moment().format('HH' + ":" + "mm");
     }else{
-        document.querySelector('#currentTime').innerHTML = new moment().format('h' + ":" + "m a");
+        document.querySelector('#currentTime').innerHTML = new moment().format('h' + ":" + "mm a");
     }
     setTimeout(startCurrTime, 500);
 };
