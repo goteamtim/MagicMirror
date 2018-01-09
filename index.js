@@ -8,7 +8,7 @@ var jwt         = require('jsonwebtoken');
 var FeedParser  = require('feedparser');
 var cookieParser = require('cookie-parser')
 var moment = require('moment')
-const { exec } = require('child_process');
+//const { exec } = require('child_process');
 
 var userData = {
     ip_info: {},
@@ -35,7 +35,7 @@ function updateWeatherData(key,location) {
         };
     });
 }
-
+/*
 function updateServer(){
     exec("git pull", (err, stdout, stderr) => {
         if (err) {
@@ -44,7 +44,7 @@ function updateServer(){
         }
         console.log('stdout: ' + stdout);
       });
-}
+}*/
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
@@ -213,11 +213,11 @@ app.get('/randomQuote', function (req, res) {
     getRandomQuote();
 
 });
-
+/*
 app.get('/updateMirror', function( req, res ){
     updateServer();
     res.send({status: "updating"})
-});
+});  */
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '\/index.html');
