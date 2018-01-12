@@ -101,10 +101,11 @@ function refreshQuote(userInfo) {
     if(userInfo.showQuote){
         $.getJSON("/randomQuote", function (json) {
             document.querySelector("#quote-container").style.visibility = "visible";
-            document.querySelector("#quote").innerHTML = json.quoteText;
-            document.querySelector("#quoteAuthor").innerHTML = json.quoteAuthor;
-            if (json.quoteAuthor === "") {
-                document.querySelector("#quoteAuthor").innerHTML = "Unknown";
+            if( json.quoteText == "Loading quote..."){
+                document.querySelector("#quote").innerHTML = json.quoteText;
+            }else{
+                document.querySelector("#quote").innerHTML = "\"" + json.quoteText + "\"";
+                document.querySelector("#quoteAuthor").innerHTML = (json.quoteAuthor == "") ? "Unknown" : json.quoteAuthor;
             }
         })
     }else{
