@@ -60,8 +60,10 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
                 console.log("Drive time status: " + body.status);
                 return body.status;
             }
+        }else{
+            console.log( "Error getting drive time.\n", error );
+            return body.status;
         }
-        //handle error.  
     });
 }
 
