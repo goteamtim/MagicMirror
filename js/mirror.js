@@ -177,7 +177,7 @@ function init() {
     updateDate();
     refreshQuote(userData);
     startCurrTime();
-    updateDrivingDistance(userData.ip_info.loc);
+    updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
     getFitBitData();
 }
 
