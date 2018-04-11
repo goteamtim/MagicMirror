@@ -92,10 +92,10 @@ function loadWeatherData() {
             var skycons = new Skycons({ "color": "white" });
             skycons.add("clear-night", json.currently.icon);
             skycons.play();
-        })
+        });
     }
 
-};
+}
 
 function refreshQuote(userInfo) {
     if(userInfo.showQuote){
@@ -107,21 +107,20 @@ function refreshQuote(userInfo) {
                 document.querySelector("#quote").innerHTML = "\"" + json.quoteText + "\"";
                 document.querySelector("#quoteAuthor").innerHTML = (json.quoteAuthor == "") ? "Unknown" : json.quoteAuthor;
             }
-        })
+        });
     }else{
         document.querySelector("#quote-container").style.visibility = "hidden";
     }
-};
+}
 
 function getNewsFeed(url) {
     if(url != "undefined"){
         $.getJSON("/feeds/" + encodeURIComponent(url), function (feedArray) {
-            //console.log(feedArray)
             if (feedArray === []) {
                 //Call again to see if you can parse.  You should keep track and only try a few times.
                 setTimeout(getNewsFeed.bind(null, url), 500);
             }
-            cycleFeed(feedArray)
+            cycleFeed( feedArray );
         });
     }
 };
@@ -164,6 +163,7 @@ function zeroBuffer(i) {
 };
 
 function getUsersIpInformation() {
+    // Change this to use the browser to pass coordinates instead?
     $.get('https://ipinfo.io/json', function (data) {
         userData.ip_info = data;
         localStorage.setItem('userData', JSON.stringify(userData))
@@ -201,7 +201,7 @@ function cycleFeed(feedArray) {
 function getFitBitData(){
     $.getJSON('/fb',function(data){
         document.querySelector('#currentStepCount').innerHTML = data.summary.steps + "/" + data.goals.steps;
-    })
+    });
 }
 
 window.onclick= function()
