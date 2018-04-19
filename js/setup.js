@@ -3,13 +3,13 @@ var userData = JSON.parse(localStorage.getItem('userData')) || {};
 function getUsersIpInformation() {
     $.getJSON('https://ipinfo.io', function (data) {
         userData.location = data;
-    })
+    });
 }
 
 function updateMirrorSoftware() {
     $.get("/updateMirror", function (data) {
-        console.log(data.status)
-        console.log("Updating...")
+        console.log(data.status);
+        console.log("Updating...");
     });
 }
 
@@ -34,7 +34,7 @@ function loadUserDataObject() {
             {
                 if(userData[ inputFields[ i ].id ] == inputFields[ i ].dataset.value){
                     //Set military radio
-                    inputFields[ i ].checked = userData[ inputFields[ i ].id ]
+                    inputFields[ i ].checked = userData[ inputFields[ i ].id ];
                 }
             }else{
                 inputFields[ i ].value = ( userData[ inputFields[ i ].id ] ) == undefined ? '' : userData[ inputFields[ i ].id ];
@@ -57,7 +57,6 @@ function saveSettings() {
             }else{
                 userData[element.id] = element.value;
             }
-        //}
     }
     localStorage.setItem('userData', JSON.stringify(userData));
 }
@@ -77,13 +76,13 @@ $('form').submit(function (event) {
     event.preventDefault();
     saveSettings();
 
-})
+});
 
 $('#update-mirror').click(function () {
     updateMirrorSoftware();
-})
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     getUsersIpInformation();
     loadUserDataObject();
-})
+});
