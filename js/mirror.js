@@ -167,7 +167,7 @@ function getUsersIpInformation() {
     $.get('https://ipinfo.io/json', function (data) {
         userData.ip_info = data;
         localStorage.setItem('userData', JSON.stringify(userData))
-    });
+    } );
 }
 
 function init() {
