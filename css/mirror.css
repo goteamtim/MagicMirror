@@ -56,3 +56,12 @@ i {
 .top-padding {
     padding-top: 20px;
 }
+
+#settings-page {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 15px;
+    widows: 15px;
+    opacity: .5;
+}

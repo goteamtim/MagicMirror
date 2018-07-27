@@ -5,6 +5,7 @@ var time = new Date();
 var weatherLastLoadTime = time.getMilliseconds() * 1000;
 var feedCycle;
 var userData = JSON.parse(localStorage.getItem('userData')) || {};
+var settings = document.getElementById( 'settings-page' );
 
 
 var weekday = new Array(7);
@@ -132,7 +133,7 @@ function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
             document.querySelector('#drive-time-container').style.visibility = "visibile";
         } else {
-            document.querySelector("#currentDriveTime").innerHTML = 'Error: -1'
+            document.querySelector("#currentDriveTime").innerHTML = 'Error: -1';
         }
     });
 }
@@ -204,10 +205,10 @@ function getFitBitData(){
     });
 }
 
-window.onclick= function()
+settings.onclick= function()
 {
-window.location = '/setup';
-}
+    window.location = '/setup';
+};
 
 setTimeout(init, 1500);
 
