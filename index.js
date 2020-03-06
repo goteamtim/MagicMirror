@@ -174,36 +174,6 @@ app.get('/feeds/:encodedUrl', function (req, res) {
     
 });
 
-app.get('/fitbit', function (req, res) {
-    if (req.query.access_token) {
-        //console.log("fitbit response\n", req.query.access_token);
-        //req.query.id
-        var token = jwt.sign(req.query.access_token, KEYS.JWT);
-        var userID = jwt.sign(req.query.user_id,KEYS.JWT);
-        res.cookie("token",token)
-        res.cookie('user',userID)
-        res.redirect('/setup')
-    } else {
-        res.sendFile(__dirname + '\/fitbit.html');
-    }
-
-});
-
-app.get('/fb', function( req, res ){
-    //console.log("Getting fitbit data")
-    var token = jwt.verify(req.cookies.token, KEYS.JWT)
-    var user = jwt.verify(req.cookies.user, KEYS.JWT)
-    var date = moment().format("YYYY[-]MM[-]DD");
-    //console.log("token: ", token)
-    //console.log("user: ", req.cookies.user)
-    request('https://api.fitbit.com/1/user/' + user + '/activities/date/' + date + '.json',{headers:{'Authorization':'Bearer ' + token}},function(err,response,body){
-        if(!body.success){
-            console.log("--- FitBit Error ---\n",body)
-        }
-        res.send(body)
-    })
-})
-
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);
     res.send(userData.driveData.content);
