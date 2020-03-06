@@ -165,16 +165,23 @@ function zeroBuffer(i) {
 
 function getUsersIpInformation( callback ) {
     // Change this to use the browser to pass coordinates instead?
-    $.get('https://ipinfo.io/json', function (data) {
+    console.log('trying to get users IP info')
+    $.get('https://ipinfo.io/json', function (data,status) {
+        console.log( 'IP info data:', data )
         userData.ip_info = data;
         localStorage.setItem('userData', JSON.stringify(userData))
         callback()
-    } );
+    } )
+    .fail(function(data,status) {
+        // Handle failures here.  Im failing and then not able to move forward from here.
+        console.log(data)
+        alert( "error" );
+      });
 }
 
 function init() {
-    getNewsFeed(userData.userRssFeed);
     getUsersIpInformation( function(){
+        getNewsFeed(userData.userRssFeed);
         loadWeatherData();
         updateDate();
         refreshQuote(userData);

@@ -27,13 +27,20 @@ var randomQute = getRandomQuote();
 
 
 function updateWeatherData(key,location) {
-    request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
+    if (key) {
+        request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             userData.weather = body;
         } else{
              console.log("API call to weather not working.\n" + error);
         };
-    });
+        });
+    }else{
+        console.log('WARNING')
+        console.log('Key "' + key + '" is not valid')
+        console.log('WARNING')
+    }
+    
 }
 /*
 function updateServer(){
@@ -138,8 +145,6 @@ function updateRSSFeed(userUrl) {
 
 updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
-//getRandomQuote();
-//getUserLocation();
 
 app.use(cookieParser())
 
