@@ -13,17 +13,6 @@ function updateMirrorSoftware() {
     });
 }
 
-function getCoords() {
-    if (!userData.hasOwnProperty( "location" ) ) {
-        getUsersIpInformation();
-    }
-    var location = userData.location.loc;
-    var lat = location.substr( 0, location.indexOf( "," ) );
-    var lon = location.substr( location.indexOf( "," ) + 1, location.length );
-    $('#latitude').val( +lat );
-    $('#longitude').val( +lon );
-}
-
 function loadUserDataObject() {
     if ( userData ) {
         var inputFields = document.querySelectorAll( '.userDataField' );

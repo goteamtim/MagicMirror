@@ -26,13 +26,13 @@ var quote = {},
 var randomQute = getRandomQuote();
 
 
-function updateWeatherData(key,location) {
+function updateWeatherData(key,lat,lon) {
     if (key) {
-        request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+        request('https://api.forecast.io/forecast/' + key + '/' + lon + ',' + lat, function(error, response, body) {
+        if (!error && !body.error && response.statusCode == 200) {
             userData.weather = body;
         } else{
-             console.log("API call to weather not working.\n" + error);
+             console.log("API call to weather not working.\n" + body);
         };
         });
     }else{
@@ -42,16 +42,6 @@ function updateWeatherData(key,location) {
     }
     
 }
-/*
-function updateServer(){
-    exec("git pull", (err, stdout, stderr) => {
-        if (err) {
-          console.log('stderr: ' + stderr);
-          return;
-        }
-        console.log('stdout: ' + stdout);
-      });
-}*/
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
@@ -141,9 +131,6 @@ function updateRSSFeed(userUrl) {
 
 }
 
-
-
-updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
 
 app.use(cookieParser())
@@ -160,8 +147,12 @@ app.get('/setup', function (req, res) {
     res.sendFile(__dirname + '\/setup.html');
 });
 
-app.get('/weather/:apiKey/:location', function (req, res) {
-    updateWeatherData(req.params.apiKey, req.params.location);
+app.get('/weather/:apiKey/:latitude/:longitude', function (req, res) {
+    console.log('lat: ' + req.params.latitude )
+    console.log('long: ' + req.params.longitude )
+    console.log('lat,lon: 32.9652,-117.1213' )
+    console.log('lat + , + lon: ' +  + req.params.longitude + ','  + req.params.latitude )
+    updateWeatherData(req.params.apiKey, req.params.latitude, req.params.longitude);
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }

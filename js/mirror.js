@@ -51,13 +51,13 @@ function loadWeatherData() {
     }
     if(userData.showWeather && userData.ip_info != undefined)
     {
-        $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
+        $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.latitude + '/' + userData.longitude, function (json) {
             //Gather weather here as object first then use it later in broken out functuions?
             if (!json.hasOwnProperty('currently')) {
                 setTimeout(function () {
                     loadWeatherData();
                     //Need to handle for having a loop here.
-                }, 500);
+                }, 15500);
                 return;
             }
             weatherData = json;
@@ -128,7 +128,7 @@ function getNewsFeed(url) {
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
 
-    $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
+    $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey ).done(function (json) {
         if (json.hasOwnProperty('rows') && json.status != 'REQUEST_DENIED') {
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
             document.querySelector('#drive-time-container').style.visibility = "visibile";
@@ -163,32 +163,13 @@ function zeroBuffer(i) {
     return i;
 };
 
-function getUsersIpInformation( callback ) {
-    // Change this to use the browser to pass coordinates instead?
-    console.log('trying to get users IP info')
-    $.get('https://ipinfo.io/json', function (data,status) {
-        console.log( 'IP info data:', data )
-        userData.ip_info = data;
-        localStorage.setItem('userData', JSON.stringify(userData))
-        callback()
-    } )
-    .fail(function(data,status) {
-        // Handle failures here.  Im failing and then not able to move forward from here.
-        console.log(data)
-        alert( "error" );
-      });
-}
-
 function init() {
-    getUsersIpInformation( function(){
-        getNewsFeed(userData.userRssFeed);
-        loadWeatherData();
-        updateDate();
-        refreshQuote(userData);
-        startCurrTime();
-        updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
-    });
-
+    getNewsFeed(userData.userRssFeed);
+    loadWeatherData();
+    updateDate();
+    refreshQuote(userData);
+    startCurrTime();
+    // updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
 }
 
 function cycleFeed(feedArray) {
