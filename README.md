@@ -18,4 +18,3 @@ Once installed, gulp should get you up and running with browsersync.  You need t
 * Automatic Updates
 * Bundle for distriution (minify)
 * Calendar integration
-* Fitbit integration

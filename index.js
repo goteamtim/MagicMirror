@@ -26,25 +26,22 @@ var quote = {},
 var randomQute = getRandomQuote();
 
 
-function updateWeatherData(key,location) {
-    request('https://api.forecast.io/forecast/' + key + '/' + location, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+function updateWeatherData(key,lat,lon) {
+    if (key) {
+        request('https://api.forecast.io/forecast/' + key + '/' + lon + ',' + lat, function(error, response, body) {
+        if (!error && !body.error && response.statusCode == 200) {
             userData.weather = body;
         } else{
-             console.log("API call to weather not working.\n" + error);
+             console.log("API call to weather not working.\n" + body);
         };
-    });
+        });
+    }else{
+        console.log('WARNING')
+        console.log('Key "' + key + '" is not valid')
+        console.log('WARNING')
+    }
+    
 }
-/*
-function updateServer(){
-    exec("git pull", (err, stdout, stderr) => {
-        if (err) {
-          console.log('stderr: ' + stderr);
-          return;
-        }
-        console.log('stdout: ' + stdout);
-      });
-}*/
 
 function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
     var url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + originLatLon + '&destinations=' + destLat + ',' + destLon + '&departure_time=now&traffic_model=best_guess&key='+driveTimeApiKey;
@@ -134,12 +131,7 @@ function updateRSSFeed(userUrl) {
 
 }
 
-
-
-updateWeatherData(userData.weatherAPIKey);
 setInterval(updateWeatherData, CONSTANTS.WEATHER_TIMEOUT);
-//getRandomQuote();
-//getUserLocation();
 
 app.use(cookieParser())
 
@@ -155,8 +147,12 @@ app.get('/setup', function (req, res) {
     res.sendFile(__dirname + '\/setup.html');
 });
 
-app.get('/weather/:apiKey/:location', function (req, res) {
-    updateWeatherData(req.params.apiKey, req.params.location);
+app.get('/weather/:apiKey/:latitude/:longitude', function (req, res) {
+    console.log('lat: ' + req.params.latitude )
+    console.log('long: ' + req.params.longitude )
+    console.log('lat,lon: 32.9652,-117.1213' )
+    console.log('lat + , + lon: ' +  + req.params.longitude + ','  + req.params.latitude )
+    updateWeatherData(req.params.apiKey, req.params.latitude, req.params.longitude);
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
     }
@@ -173,36 +169,6 @@ app.get('/feeds/:encodedUrl', function (req, res) {
 
     
 });
-
-app.get('/fitbit', function (req, res) {
-    if (req.query.access_token) {
-        //console.log("fitbit response\n", req.query.access_token);
-        //req.query.id
-        var token = jwt.sign(req.query.access_token, KEYS.JWT);
-        var userID = jwt.sign(req.query.user_id,KEYS.JWT);
-        res.cookie("token",token)
-        res.cookie('user',userID)
-        res.redirect('/setup')
-    } else {
-        res.sendFile(__dirname + '\/fitbit.html');
-    }
-
-});
-
-app.get('/fb', function( req, res ){
-    //console.log("Getting fitbit data")
-    var token = jwt.verify(req.cookies.token, KEYS.JWT)
-    var user = jwt.verify(req.cookies.user, KEYS.JWT)
-    var date = moment().format("YYYY[-]MM[-]DD");
-    //console.log("token: ", token)
-    //console.log("user: ", req.cookies.user)
-    request('https://api.fitbit.com/1/user/' + user + '/activities/date/' + date + '.json',{headers:{'Authorization':'Bearer ' + token}},function(err,response,body){
-        if(!body.success){
-            console.log("--- FitBit Error ---\n",body)
-        }
-        res.send(body)
-    })
-})
 
 app.get('/driveTime/:currLocation/:destLat/:destLon/:apiKey', function (req, res) {
     getCurrentDriveTime(req.params.currLocation, req.params.destLat, req.params.destLon, req.params.apiKey);

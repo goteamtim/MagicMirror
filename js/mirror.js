@@ -51,13 +51,13 @@ function loadWeatherData() {
     }
     if(userData.showWeather && userData.ip_info != undefined)
     {
-        $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.ip_info.loc, function (json) {
+        $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.latitude + '/' + userData.longitude, function (json) {
             //Gather weather here as object first then use it later in broken out functuions?
             if (!json.hasOwnProperty('currently')) {
                 setTimeout(function () {
                     loadWeatherData();
                     //Need to handle for having a loop here.
-                }, 500);
+                }, 15500);
                 return;
             }
             weatherData = json;
@@ -128,7 +128,7 @@ function getNewsFeed(url) {
 
 function updateDrivingDistance(currLoc, destLat, destLon, apiKey) {
 
-    $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey).done(function (json) {
+    $.getJSON('/driveTime/' + currLoc + '/' + userData.destLat + '/' + userData.destLon + '/' + userData.distanceApiKey ).done(function (json) {
         if (json.hasOwnProperty('rows') && json.status != 'REQUEST_DENIED') {
             document.querySelector("#currentDriveTime").innerHTML = json.rows[0].elements[0].duration_in_traffic.text;
             document.querySelector('#drive-time-container').style.visibility = "visibile";
@@ -163,23 +163,13 @@ function zeroBuffer(i) {
     return i;
 };
 
-function getUsersIpInformation() {
-    // Change this to use the browser to pass coordinates instead?
-    $.get('https://ipinfo.io/json', function (data) {
-        userData.ip_info = data;
-        localStorage.setItem('userData', JSON.stringify(userData))
-    } );
-}
-
 function init() {
     getNewsFeed(userData.userRssFeed);
-    getUsersIpInformation();
     loadWeatherData();
     updateDate();
     refreshQuote(userData);
     startCurrTime();
-    updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
-    getFitBitData();
+    // updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
 }
 
 function cycleFeed(feedArray) {
@@ -199,19 +189,9 @@ function cycleFeed(feedArray) {
     feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
 }
 
-function getFitBitData(){
-    $.getJSON('/fb',function(data){
-        document.querySelector('#currentStepCount').innerHTML = data.summary.steps + "/" + data.goals.steps;
-    });
-}
-
 settings.onclick= function()
 {
     window.location = '/setup';
 };
 
 setTimeout(init, 1500);
-
-// module.exports = {
-//     zeroBuffer: zeroBuffer
-// }
