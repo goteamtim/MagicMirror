@@ -49,7 +49,7 @@ function loadWeatherData() {
         $("#setupError").modal();
         return null;
     }
-    if(userData.showWeather && userData.ip_info != undefined)
+    if( userData.showWeather )
     {
         $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.latitude + '/' + userData.longitude, function (json) {
             //Gather weather here as object first then use it later in broken out functuions?
