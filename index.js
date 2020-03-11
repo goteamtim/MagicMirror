@@ -32,13 +32,13 @@ function updateWeatherData(key,lat,lon) {
         if (!error && !body.error && response.statusCode == 200) {
             userData.weather = body;
         } else{
-             console.log("API call to weather not working.\n" + body);
+             // // console.log("API call to weather not working.\n" + body);
         };
         });
     }else{
-        console.log('WARNING')
-        console.log('Key "' + key + '" is not valid')
-        console.log('WARNING')
+        // console.log('WARNING')
+        // console.log('Key "' + key + '" is not valid')
+        // console.log('WARNING')
     }
     
 }
@@ -54,11 +54,11 @@ function getCurrentDriveTime(originLatLon,destLat,destLon,driveTimeApiKey) {
                 userData.driveData.content = JSON.parse(body);
                 return JSON.parse(body);
             } else {
-                console.log("Drive time status: " + body.status);
+                // console.log("Drive time status: " + body.status);
                 return body.status;
             }
         }else{
-            console.log( "Error getting drive time.\n", error );
+            // console.log( "Error getting drive time.\n", error );
             return body.status;
         }
     });
@@ -81,7 +81,7 @@ function getRandomQuote() {
             randomQute = parsedQuote;
             return parsedQuote;
         } else {
-            console.log("Error in quote: " + error);
+            // console.log("Error in quote: " + error);
             // return null;
         }
     });
@@ -148,10 +148,10 @@ app.get('/setup', function (req, res) {
 });
 
 app.get('/weather/:apiKey/:latitude/:longitude', function (req, res) {
-    console.log('lat: ' + req.params.latitude )
-    console.log('long: ' + req.params.longitude )
-    console.log('lat,lon: 32.9652,-117.1213' )
-    console.log('lat + , + lon: ' +  + req.params.longitude + ','  + req.params.latitude )
+    // console.log('lat: ' + req.params.latitude )
+    // console.log('long: ' + req.params.longitude )
+    // console.log('lat,lon: 32.9652,-117.1213' )
+    // console.log('lat + , + lon: ' +  + req.params.longitude + ','  + req.params.latitude )
     updateWeatherData(req.params.apiKey, req.params.latitude, req.params.longitude);
     if (req.params.apiKey !== null) {
         userData.weatherAPIKey = req.params.apiKey;
@@ -163,8 +163,8 @@ app.get('/feeds/:encodedUrl', function (req, res) {
     updateRSSFeed(decodeURIComponent(req.params.encodedUrl)).then(function(value){
     res.send(value);
 }).catch(function(reason){
-    console.log("Error getting feed...")
-    console.log(reason)
+    // console.log("Error getting feed...")
+    // console.log(reason)
 })
 
     
@@ -193,7 +193,7 @@ app.get('/', function (req, res) {
 
 
 app.listen(port, function () {
-    console.log('Magic behind the mirror running at localhost:' + port + ' in your browser.');
+    // console.log('Magic behind the mirror running at localhost:' + port + ' in your browser.');
 });
 
 // export app so we can test it
