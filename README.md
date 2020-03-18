@@ -18,3 +18,5 @@ Once installed, gulp should get you up and running with browsersync.  You need t
 * Automatic Updates
 * Bundle for distriution (minify)
 * Calendar integration
+* Service Worker for Offline
+    * Focus on only getting a service worker running first.  Then add different functions.
