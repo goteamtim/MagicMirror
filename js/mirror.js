@@ -39,10 +39,7 @@ function checkDay(currentDay) {
         return currentDay;
     }
 }
-/**Calls the server to get information about the current weather conditions
- * @param {string} weatherApiKey - API key for weather underground
- * @param {string} location - Location of the weather in lat/long string
- */
+
 function loadWeatherData() {
     //Check to see if they filled out the API key yet
     if (!userData.hasOwnProperty('weatherApiKey')) {
@@ -52,7 +49,7 @@ function loadWeatherData() {
     if(userData.showWeather && userData.ip_info != undefined)
     {
         $.getJSON("/weather/" + userData.weatherApiKey + '/' + userData.latitude + '/' + userData.longitude, function (json) {
-            //Gather weather here as object first then use it later in broken out functuions?
+            
             if (!json.hasOwnProperty('currently')) {
                 setTimeout(function () {
                     loadWeatherData();
@@ -164,10 +161,10 @@ function zeroBuffer(i) {
 };
 
 function init() {
-    getNewsFeed(userData.userRssFeed);
+    getNewsFeed( userData.userRssFeed );
     loadWeatherData();
     updateDate();
-    refreshQuote(userData);
+    refreshQuote( userData );
     startCurrTime();
     // updateDrivingDistance(userData.ip_info.loc); // Only initialize what the user needs
 }
@@ -176,15 +173,15 @@ function cycleFeed(feedArray) {
     var copiedFeed = feedArray;
     var rand = Math.floor(Math.random() * feedArray.length);
     var e = document.getElementById('rssFeed');
-    $('#rssFeed').fadeOut('slow', function () {
-        console.log(feedArray[rand])
+    $('#rssFeed').fadeOut('slow', function ()
+    {
         while (e.innerHTML === feedArray[rand].title && feedArray.length > 1 && feedArray !== undefined) {
             rand = Math.floor(Math.random() * (feedArray.length + 1));
         }
         e.innerHTML = feedArray[rand].title + " -" + feedArray[rand].description;
         e.href = feedArray[rand].url;
         $('#rssFeed').fadeIn('slow');
-    });
+    } );
 
     feedCycle = setTimeout(cycleFeed.bind(this, copiedFeed), 30500);
 }
