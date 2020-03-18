@@ -1,11 +1,5 @@
 var userData = JSON.parse(localStorage.getItem('userData')) || {};
 
-function getUsersIpInformation() {
-    $.getJSON('https://ipinfo.io', function (data) {
-        userData.location = data;
-    });
-}
-
 function updateMirrorSoftware() {
     $.get("/updateMirror", function (data) {
         console.log(data.status);
@@ -33,30 +27,39 @@ function loadUserDataObject() {
 }
 
 function saveSettings() {
-    var inputFields = document.querySelectorAll('.userDataField');
-    for (var i = 0; i < inputFields.length; i++) {
+    var inputFields = document.querySelectorAll( '.userDataField' );
+
+    for ( var i = 0; i < inputFields.length; i++ )
+    {
         var element = inputFields[i];
-         if (element.value !== "") { console.log("Element empty: " + element.id ) }
-            if (element.type === "checkbox") {
-                userData[element.id] = element.checked;
-            } else if(element.type === "radio"){
-                if(element.checked){
-                    userData[element.id] = element.dataset.value;
-                }
-            }else{
-                userData[element.id] = element.value;
+
+        if ( element.type === "checkbox" )
+        {
+            userData[ element.id ] = element.checked;
+        }
+        else if ( element.type === "radio" )
+        {
+            if ( element.checked )
+            {
+                userData[ element.id ] = element.dataset.value;
             }
+        }
+        else 
+        {
+            userData[ element.id ] = element.value;
+        }
     }
-    localStorage.setItem('userData', JSON.stringify(userData));
+
+    localStorage.setItem( 'userData', JSON.stringify( userData ) );
 }
 
 $('.checkbox').change(function () {
 
     if ($('#' + this.id).prop('checked')) {
-        $('#' + this.id + 'Field').attr('disabled', true);
+        $('#' + this.id + 'Field').prop('disabled', true);
         console.log(this.id);
     } else {
-        $('#' + this.id + 'Field').attr('disabled', false);
+        $('#' + this.id + 'Field').prop('disabled', false);
     }
 });
 
@@ -72,6 +75,5 @@ $('#update-mirror').click(function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    getUsersIpInformation();
     loadUserDataObject();
 });
