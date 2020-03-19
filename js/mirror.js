@@ -58,25 +58,26 @@ function loadWeatherData() {
                 return;
             }
             weatherData = json;
-            localStorage.setItem('weatherData', JSON.stringify(json));
-            document.querySelector("#currTemp").innerHTML = Math.round(json.currently.apparentTemperature) + "&deg;";
+            localStorage.setItem('weatherData', JSON.stringify( json ) );
+            document.querySelector("#currTemp").innerHTML = Math.round( json.currently.apparentTemperature ) + "&deg;";
             document.querySelector("#currDesc").innerHTML = json.hourly.summary;
-    
-            //Alerts (if any)
-            if(json.hasOwnProperty('alerts')){
+
+            if ( json.hasOwnProperty( 'alerts' ) )
+            {
                 for (var i = 0; i < json.alerts.length; i++) {var element = json.alerts[i];
                     document.querySelector("#currentAlert").innerHTML +=  json.alerts[i].title + " : ";
                     //description:expires:regions:severity:time:title:uri
                 }
             
             }
+
             var today = new Date().getDay();
             var counter = 1;
             for (var i = 1; i < 6; i++) {
                 var dailySkycon = new Skycons({ "color": "white" });
                 var icon = json.daily.data[i].icon;
-                var tempMax = Math.round(json.daily.data[i].temperatureMax);
-                var tempMin = Math.round(json.daily.data[i].temperatureMin);
+                var tempMax = Math.round( json.daily.data[ i ].temperatureMax );
+                var tempMin = Math.round( json.daily.data[ i ].temperatureMin );
                 var day = weekday[checkDay(today + counter)];
                 var ul = document.querySelector("#weatherForecast");
                 var li = document.createElement("li");
@@ -191,4 +192,4 @@ settings.onclick= function()
     window.location = '/setup';
 };
 
-setTimeout(init, 1500);
+setTimeout(init, 500);
